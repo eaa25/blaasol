@@ -1,0 +1,79 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #E5F0F3;
+  padding: 8px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-center {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-sun {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.header-title {
+  font-family: 'Bowlby One', system-ui, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: #009DDB;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.header-sub {
+  font-family: 'Bowlby One', system-ui, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: #009DDB;
+  letter-spacing: 1.5px;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.header-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #009DDB;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.header-btn-img {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.header-ticket {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
