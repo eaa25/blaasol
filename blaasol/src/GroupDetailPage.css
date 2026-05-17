@@ -205,6 +205,10 @@
   border-radius: 50%;
 }
 
+.detail-member-clickable {
+  cursor: pointer;
+}
+
 .detail-member-name {
   font-family: 'Poppins', system-ui, sans-serif;
   font-size: 20px;

@@ -70,7 +70,7 @@ export default function JoinGroupPage({ onBack, onJoin }) {
         </button>
       </main>
 
-      <NavBar active={activeTab} onTabChange={setActiveTab} />
+      <NavBar active={activeTab} onTabChange={setActiveTab} onGroupClick={onBack} />
     </div>
   );
 }

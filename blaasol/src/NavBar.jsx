@@ -1,4 +1,3 @@
-import React from "react";
 import "./NavBar.css";
 import startImg from "./assets/start button.png";
 import scheduleImg from "./assets/schedule button.png";
@@ -14,7 +13,7 @@ const tabs = [
   { id: "menu",     label: "Menu",     img: menuImg },
 ];
 
-export default function NavBar({ active = "group", onTabChange }) {
+export default function NavBar({ active = "group", onTabChange, onGroupClick, onMenuClick }) {
   return (
     <nav className="bottom-nav">
       <div className="nav-wave">
@@ -27,7 +26,15 @@ export default function NavBar({ active = "group", onTabChange }) {
           <button
             key={tab.id}
             className={`nav-item${active === tab.id ? " active" : ""}`}
-            onClick={() => onTabChange?.(tab.id)}
+            onClick={() => {
+              if (tab.id === "group" && onGroupClick) {
+                onGroupClick();
+              } else if (tab.id === "menu" && onMenuClick) {
+                onMenuClick();
+              } else {
+                onTabChange?.(tab.id);
+              }
+            }}
             aria-label={tab.label}
           >
             <img

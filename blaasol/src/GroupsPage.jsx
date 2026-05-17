@@ -1,3 +1,12 @@
+// ─────────────────────────────────────────────
+// GroupsPage — main screen showing all your groups
+// This is the home base of the app. From here the user can:
+//   - View all groups they belong to
+//   - Open a group to see its details
+//   - Create a new group or join an existing one via the + button
+//   - Open their profile via the account icon in the header
+// ─────────────────────────────────────────────
+
 import { useState } from "react";
 import Header from "./Header";
 import NavBar from "./NavBar";
@@ -5,6 +14,7 @@ import GroupDetailPage from "./GroupDetailPage";
 import JoinGroupPage from "./JoinGroupPage";
 import CreateGroupPage from "./CreateGroupPage";
 import ProfilePage from "./ProfilePage";
+import MenuPage from "./MenuPage";
 import img1 from "./assets/anastasia.png";
 import img2 from "./assets/selvglad.png";
 import img3 from "./assets/bonad.png";
@@ -13,6 +23,7 @@ import img5 from "./assets/gnags.png";
 import img6 from "./assets/zarpaulo.png";
 import "./GroupsPage.css";
 
+// Starting list of groups — each has an id, name, avatar image, and optional invite code
 const groups = [
   { id: 1, name: "Bass & Besties",     avatar: img1, inviteCode: "BB345" },
   { id: 2, name: "Blue Crew",           avatar: img2 },
@@ -24,13 +35,20 @@ const groups = [
 ];
 
 export default function GroupsPage() {
-  const [activeTab, setActiveTab]         = useState("group");
-  const [showPopup, setShowPopup]         = useState(false);
+  // Which nav tab is active (used by NavBar highlight)
+  const [activeTab, setActiveTab]     = useState("group");
+  // Controls the + popup (create / join options)
+  const [showPopup, setShowPopup]     = useState(false);
+  // The group the user has tapped into — opens GroupDetailPage
   const [selectedGroup, setSelectedGroup] = useState(null);
-  const [showJoin, setShowJoin]           = useState(false);
-  const [showCreate, setShowCreate]       = useState(false);
+  // Controls which full-page view to show
+  const [showJoin, setShowJoin]       = useState(false);
+  const [showCreate, setShowCreate]   = useState(false);
   const [showProfile, setShowProfile]     = useState(false);
-  const [groupList, setGroupList]         = useState(groups);
+  const [profileFromMenu, setProfileFromMenu] = useState(false); // true = profile was opened via menu
+  const [showMenu, setShowMenu]           = useState(false);
+  // Live list of groups — updated when user creates, edits or leaves a group
+  const [groupList, setGroupList]     = useState(groups);
 
   // UPDATE: saves edited name and avatar back into the list
   function handleUpdateGroup(updated) {
@@ -38,19 +56,21 @@ export default function GroupsPage() {
     setSelectedGroup(updated);
   }
 
-  // CREATE: add new group to groupList with a generated id, name, and chosen avatar
+  // CREATE: adds a new group to the list with a generated id
   function handleCreateGroup({ name, avatar }) {
     const newGroup = { id: Date.now(), name, avatar, inviteCode: null };
     setGroupList(prev => [...prev, newGroup]);
     setShowCreate(false);
   }
 
-  // DELETE: remove group from groupList by id
+  // DELETE (Leave): removes the group from the list and goes back to this screen
   function handleLeaveGroup(id) {
     setGroupList(prev => prev.filter(g => g.id !== id));
     setSelectedGroup(null);
   }
 
+  // JOIN: looks up invite code in current list, then falls back to the original groups
+  // so the user can rejoin a group they previously left
   function handleJoinByCode(code) {
     const upper = code.toUpperCase();
     let match = groupList.find(g => g.inviteCode === upper);
@@ -66,11 +86,22 @@ export default function GroupsPage() {
       setSelectedGroup(match);
       return true;
     }
-    return false;
+    return false; // wrong code — JoinGroupPage shows an error
+  }
+
+  // ── Page routing — show the right screen based on state ──
+  if (showMenu) {
+    return <MenuPage
+      onGroupClick={() => setShowMenu(false)}
+      onAccountClick={() => { setShowMenu(false); setShowProfile(true); setProfileFromMenu(true); }}
+    />;
   }
 
   if (showProfile) {
-    return <ProfilePage onBack={() => setShowProfile(false)} />;
+    return <ProfilePage onBack={() => {
+      setShowProfile(false);
+      if (profileFromMenu) { setProfileFromMenu(false); setShowMenu(true); }
+    }} />;
   }
 
   if (showCreate) {
@@ -88,17 +119,21 @@ export default function GroupsPage() {
         onBack={() => setSelectedGroup(null)}
         onUpdate={handleUpdateGroup}
         onLeave={handleLeaveGroup}
+        onProfileClick={() => { setProfileFromMenu(false); setShowProfile(true); }}
       />
     );
   }
 
+  // ── Main groups list screen ──
   return (
     <div className="groups-page">
-      <Header onTicketsClick={() => {}} onProfileClick={() => setShowProfile(true)} />
+      {/* Header — account icon opens profile */}
+      <Header onTicketsClick={() => {}} onProfileClick={() => { setProfileFromMenu(false); setShowProfile(true); }} />
 
       <main className="groups-main">
         <div className="groups-heading">
           <h1 className="groups-title">YOUR GROUPS</h1>
+          {/* + button opens the create/join popup */}
           <button className="add-btn" aria-label="Add group" onClick={() => setShowPopup(true)}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <path d="M12 5v14M5 12h14" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
@@ -106,6 +141,7 @@ export default function GroupsPage() {
           </button>
         </div>
 
+        {/* List of groups — tapping one opens GroupDetailPage */}
         <ul className="groups-list">
           {groupList.map((group, i) => (
             <li key={group.id} className="group-item" onClick={() => setSelectedGroup(group)}>
@@ -117,15 +153,16 @@ export default function GroupsPage() {
         </ul>
       </main>
 
-      <NavBar active={activeTab} onTabChange={setActiveTab} />
+      <NavBar active={activeTab} onTabChange={setActiveTab} onMenuClick={() => setShowMenu(true)} />
 
+      {/* ── Popup: shown when + is pressed ── */}
       {showPopup && (
         <div className="popup-overlay" onClick={() => setShowPopup(false)}>
           <div className="popup-card" onClick={e => e.stopPropagation()}>
             <button className="popup-close" onClick={() => setShowPopup(false)}>✕</button>
-            {/* CREATE: open a form to enter group name and pick avatar */}
+            {/* CREATE: opens a form to enter group name, invite code and pick avatar */}
             <button className="popup-btn" onClick={() => { setShowPopup(false); setShowCreate(true); }}>CREATE A NEW GROUP</button>
-            {/* JOIN: input an invite code to join an existing group */}
+            {/* JOIN: opens a page to scan QR or enter an invite code */}
             <button className="popup-btn" onClick={() => { setShowPopup(false); setShowJoin(true); }}>JOIN AN EXISTING GROUP</button>
           </div>
         </div>

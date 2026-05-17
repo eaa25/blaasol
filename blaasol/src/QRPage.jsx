@@ -4,8 +4,6 @@ import Header from "./Header";
 import NavBar from "./NavBar";
 import "./QRPage.css";
 
-const INVITE_CODE = "BB345";
-
 function CopyIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -15,12 +13,15 @@ function CopyIcon() {
   );
 }
 
-export default function QRPage({ group, onBack }) {
+export default function QRPage({ group, onBack, inviteCode = "BB345", description }) {
   const [activeTab, setActiveTab] = useState("group");
   const [copied, setCopied]       = useState(false);
 
+  const displayCode = inviteCode;
+  const displayDesc = description || "Show this QR code or share the invite code with your friends so they can join your group and stay connected during the festival.";
+
   function handleCopy() {
-    navigator.clipboard.writeText(INVITE_CODE).then(() => {
+    navigator.clipboard.writeText(displayCode).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
@@ -31,10 +32,7 @@ export default function QRPage({ group, onBack }) {
       <Header showBack onBackClick={onBack} />
 
       <main className="qr-main">
-        <p className="qr-description">
-          Show this QR code or share the invite code with your friends so they
-          can join your group and stay connected during the festival.
-        </p>
+        <p className="qr-description">{displayDesc}</p>
 
         <div className="qr-blob-wrap">
           <svg className="qr-blob-svg" viewBox="0 0 300 275" xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +68,7 @@ export default function QRPage({ group, onBack }) {
           </svg>
           <div className="qr-card">
             <QRCode
-              value={`blaasol-group-${INVITE_CODE}`}
+              value={`blaasol-${displayCode}`}
               size={220}
               bgColor="#ffffff"
               fgColor="#000000"
@@ -79,7 +77,7 @@ export default function QRPage({ group, onBack }) {
         </div>
 
         <div className="qr-code-row">
-          <span className="qr-invite-code">{INVITE_CODE}</span>
+          <span className="qr-invite-code">{displayCode}</span>
           <button className="qr-copy-btn" onClick={handleCopy} aria-label="Copy invite code">
             {copied ? (
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -92,7 +90,7 @@ export default function QRPage({ group, onBack }) {
         </div>
       </main>
 
-      <NavBar active={activeTab} onTabChange={setActiveTab} />
+      <NavBar active={activeTab} onTabChange={setActiveTab} onGroupClick={onBack} />
     </div>
   );
 }
