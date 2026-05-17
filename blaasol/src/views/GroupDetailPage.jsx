@@ -15,8 +15,8 @@ import programIcon from "../assets/program icon.png";
 import vectorIcon from "../assets/Vector.png";
 import mapIcon from "../assets/map icon.png";
 
-import Header from "./Header";
-import NavBar from "./NavBar";
+import Header from "../components/Header";
+import NavBar from "../components/NavBar";
 import QRPage from "./QRPage";
 import FriendProfilePage from "./FriendProfilePage";
 

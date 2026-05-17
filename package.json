@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-router-dom": "^7.15.1",
+    "react-zoom-pan-pinch": "^4.0.3"
+  }
+}

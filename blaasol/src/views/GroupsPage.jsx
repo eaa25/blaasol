@@ -8,8 +8,8 @@
 // ─────────────────────────────────────────────
 
 import { useState } from "react";
-import Header from "./Header";
-import NavBar from "./NavBar";
+import Header from "../components/Header";
+import NavBar from "../components/NavBar";
 import GroupDetailPage from "./GroupDetailPage";
 import JoinGroupPage from "./JoinGroupPage";
 import CreateGroupPage from "./CreateGroupPage";

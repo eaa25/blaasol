@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import Header from "./Header";
-import NavBar from "./NavBar";
+import Header from "../components/Header";
+import NavBar from "../components/NavBar";
 import "./JoinGroupPage.css";
 
 export default function JoinGroupPage({ onBack, onJoin }) {

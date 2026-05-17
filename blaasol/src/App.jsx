@@ -1,7 +1,25 @@
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import Homepage from "./views/Homepage";
+import Schedule from "./views/Schedule";
+import MapPage from "./views/MapPage";
 import GroupsPage from "./views/GroupsPage";
+import MenuPage from "./views/MenuPage";
 
 function App() {
-  return <GroupsPage />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/schedule" element={<Schedule />} />
+        <Route path="/map" element={<MapPage />} />
+        <Route path="/groups" element={<GroupsPage />} />
+        <Route path="/menu" element={<MenuPage />} />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
