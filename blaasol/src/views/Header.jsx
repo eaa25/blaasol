@@ -1,8 +1,10 @@
 import React from "react";
-import sunImg from "./assets/sun.png";
-import ticketImg from "./assets/ticket.png";
-import accountImg from "./assets/accounticon.png";
-import backArrowImg from "./assets/backarrow.png";
+
+import sunImg from "../assets/sun.png";
+import ticketImg from "../assets/ticket.png";
+import accountImg from "../assets/accounticon.png";
+import backArrowImg from "../assets/backarrow.png";
+
 import "./Header.css";
 
 export default function Header({ onTicketsClick, onProfileClick, showBack, onBackClick }) {

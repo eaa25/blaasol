@@ -15,12 +15,14 @@ import JoinGroupPage from "./JoinGroupPage";
 import CreateGroupPage from "./CreateGroupPage";
 import ProfilePage from "./ProfilePage";
 import MenuPage from "./MenuPage";
-import img1 from "./assets/anastasia.png";
-import img2 from "./assets/selvglad.png";
-import img3 from "./assets/bonad.png";
-import img4 from "./assets/specktors.png";
-import img5 from "./assets/gnags.png";
-import img6 from "./assets/zarpaulo.png";
+
+import img1 from "../assets/anastasia.png";
+import img2 from "../assets/selvglad.png";
+import img3 from "../assets/bonad.png";
+import img4 from "../assets/specktors.png";
+import img5 from "../assets/gnags.png";
+import img6 from "../assets/zarpaulo.png";
+
 import "./GroupsPage.css";
 
 // Starting list of groups — each has an id, name, avatar image, and optional invite code

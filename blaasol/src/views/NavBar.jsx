@@ -1,9 +1,10 @@
 import "./NavBar.css";
-import startImg from "./assets/start button.png";
-import scheduleImg from "./assets/schedule button.png";
-import mapImg from "./assets/map button.png";
-import groupImg from "./assets/group button.png";
-import menuImg from "./assets/menu button.png";
+
+import startImg from "../assets/start button.png";
+import scheduleImg from "../assets/schedule button.png";
+import mapImg from "../assets/map button.png";
+import groupImg from "../assets/group button.png";
+import menuImg from "../assets/menu button.png";
 
 const tabs = [
   { id: "start",    label: "Start",    img: startImg },

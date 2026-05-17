@@ -1,4 +1,4 @@
-import GroupsPage from "./GroupsPage";
+import GroupsPage from "./views/GroupsPage";
 
 function App() {
   return <GroupsPage />;

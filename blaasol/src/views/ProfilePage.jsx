@@ -13,7 +13,9 @@ import Header from "./Header";
 import NavBar from "./NavBar";
 import QRPage from "./QRPage";
 import FriendProfilePage from "./FriendProfilePage";
-import ellapersona from "./assets/ellapersona.png";
+
+import ellapersona from "../assets/ellapersona.png";
+
 import "./ProfilePage.css";
 
 // Your friends list shown on the profile

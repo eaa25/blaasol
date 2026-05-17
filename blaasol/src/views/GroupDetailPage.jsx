@@ -9,14 +9,17 @@
 // ─────────────────────────────────────────────
 
 import React, { useState, useRef, useEffect } from "react";
-import ellapersona from "./assets/ellapersona.png";
-import programIcon from "./assets/program icon.png";
-import vectorIcon from "./assets/Vector.png";
-import mapIcon from "./assets/map icon.png";
+
+import ellapersona from "../assets/ellapersona.png";
+import programIcon from "../assets/program icon.png";
+import vectorIcon from "../assets/Vector.png";
+import mapIcon from "../assets/map icon.png";
+
 import Header from "./Header";
 import NavBar from "./NavBar";
 import QRPage from "./QRPage";
 import FriendProfilePage from "./FriendProfilePage";
+
 import "./GroupDetailPage.css";
 
 // Hardcoded members list for this group

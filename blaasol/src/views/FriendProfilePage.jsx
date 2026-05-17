@@ -15,8 +15,9 @@
 import { useState } from "react";
 import Header from "./Header";
 import NavBar from "./NavBar";
+
 import "./FriendProfilePage.css";
-import "./GroupDetailPage.css"; // reuses leave-overlay / leave-card confirmation popup styles
+import "./GroupDetailPage.css";
 
 // ── SVG icon components ──
 
