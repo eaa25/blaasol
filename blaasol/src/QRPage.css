@@ -1,0 +1,99 @@
+.qr-page {
+  height: 100dvh;
+  background-color: #E5F0F3;
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, sans-serif;
+  overflow: hidden;
+  position: relative;
+
+  @media (min-width: 600px) {
+    max-width: 430px;
+    margin: 0 auto;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.qr-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 24px 16px;
+  overflow-y: auto;
+}
+
+.qr-description {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 16px;
+  color: #1B4591;
+  text-align: center;
+  line-height: 1.6;
+  margin: 0 0 72px;
+}
+
+/* ── Blob + QR card ── */
+.qr-blob-wrap {
+  position: relative;
+  width: 300px;
+  height: 290px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+@keyframes colorCycle {
+  0%   { fill: #7DD3F0; }
+  20%  { fill: #FFACCE; }
+  40%  { fill: #B8F0C8; }
+  60%  { fill: #FFD97D; }
+  80%  { fill: #C9B8F5; }
+  100% { fill: #7DD3F0; }
+}
+
+.qr-blob-svg {
+  position: absolute;
+  inset: -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 28px);
+}
+
+.qr-blob-path {
+  animation: colorCycle 3s ease-in-out infinite;
+}
+
+.qr-card {
+  position: relative;
+  z-index: 1;
+  background: white;
+  padding: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Invite code row ── */
+.qr-code-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.qr-invite-code {
+  font-family: 'Bowlby One', system-ui, sans-serif;
+  font-size: 48px;
+  color: #1B4591;
+  letter-spacing: 2px;
+}
+
+.qr-copy-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #009DDB;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}

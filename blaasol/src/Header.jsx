@@ -2,14 +2,21 @@ import React from "react";
 import sunImg from "./assets/sun.png";
 import ticketImg from "./assets/ticket.png";
 import accountImg from "./assets/accounticon.png";
+import backArrowImg from "./assets/backarrow.png";
 import "./Header.css";
 
-export default function Header({ onTicketsClick, onProfileClick }) {
+export default function Header({ onTicketsClick, onProfileClick, showBack, onBackClick }) {
   return (
     <header className="app-header">
-      <button className="header-btn-img" onClick={onTicketsClick} aria-label="Tickets">
-        <img src={ticketImg} alt="Tickets" className="header-ticket" />
-      </button>
+      {showBack ? (
+        <button className="header-btn-img" onClick={onBackClick} aria-label="Back">
+          <img src={backArrowImg} alt="Back" className="header-back-arrow" />
+        </button>
+      ) : (
+        <button className="header-btn-img" onClick={onTicketsClick} aria-label="Tickets">
+          <img src={ticketImg} alt="Tickets" className="header-ticket" />
+        </button>
+      )}
 
       <div className="header-center">
         <img src={sunImg} alt="Sun" className="header-sun" />
@@ -19,9 +26,13 @@ export default function Header({ onTicketsClick, onProfileClick }) {
         </div>
       </div>
 
-      <button className="header-btn-img" onClick={onProfileClick} aria-label="Profile">
-        <img src={accountImg} alt="Account" className="header-ticket" />
-      </button>
+      {showBack ? (
+        <div style={{ width: 70 }} />
+      ) : (
+        <button className="header-btn-img" onClick={onProfileClick} aria-label="Profile">
+          <img src={accountImg} alt="Account" className="header-ticket" />
+        </button>
+      )}
     </header>
   );
 }

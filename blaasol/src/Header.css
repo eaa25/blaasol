@@ -77,3 +77,9 @@
   height: 70px;
   object-fit: contain;
 }
+
+.header-back-arrow {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}

@@ -1,0 +1,124 @@
+.join-page {
+  height: 100dvh;
+  background-color: #E5F0F3;
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, sans-serif;
+  overflow: hidden;
+  position: relative;
+
+  @media (min-width: 600px) {
+    max-width: 430px;
+    margin: 0 auto;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.join-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 24px 16px;
+  overflow-y: auto;
+}
+
+.join-title {
+  font-family: 'Bowlby One', system-ui, sans-serif;
+  font-size: 48px;
+  font-weight: 400;
+  color: #1B4591;
+  text-align: center;
+  margin: 0 0 40px;
+}
+
+.join-camera-box {
+  width: 240px;
+  height: 220px;
+  background: black;
+  border: 5px solid #1B4591;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.join-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.join-cam-error {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 13px;
+  color: #fff;
+  text-align: center;
+  padding: 16px;
+}
+
+.join-scan-label {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #1B4591;
+  margin: 0 0 24px;
+}
+
+.join-or {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #1B4591;
+  margin: 0 0 24px;
+}
+
+.join-manual-label {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #1B4591;
+  margin: 0 0 24px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.join-code-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 16px;
+  color: #1B4591;
+  outline: none;
+}
+
+.join-code-input::placeholder {
+  color: #aaa;
+}
+
+.join-error {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 13px;
+  color: #e03c3c;
+  margin: 6px 0 0;
+  align-self: flex-start;
+}
+
+.join-submit-btn {
+  margin-top: 16px;
+  width: 100%;
+  padding: 14px;
+  background: #1B4591;
+  color: white;
+  font-family: 'Bowlby One', system-ui, sans-serif;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
