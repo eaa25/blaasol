@@ -51,7 +51,7 @@ export default function SendLocationPage({ onBack }) {
 
   return (
     <div className="send-location-page">
-      <Header showBack onBackClick={onBack} />
+      <Header variant="back" onBackClick={onBack} />
 
       <main className="send-location-main">
         <section className="send-location-intro">
