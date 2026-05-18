@@ -1,40 +1,62 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
 
-import sunImg from "../assets/sun.png";
-import ticketImg from "../assets/ticket.png";
-import accountImg from "../assets/accounticon.png";
-import backArrowImg from "../assets/backarrow.png";
+import logoImg from "../assets/header/logo-light-blue.png";
+import ticketImg from "../assets/header/ticket-icon.png";
+import accountImg from "../assets/header/account-icon.png";
+import backArrowImg from "../assets/header/backarrow.png";
 
 import "./Header.css";
 
-export default function Header({ onTicketsClick, onProfileClick, showBack, onBackClick }) {
+export default function Header({ variant = "default", onBackClick }) {
+  const navigate = useNavigate();
+
+  const isBackHeader = variant === "back";
+
+  function handleBackClick() {
+    if (onBackClick) {
+      onBackClick();
+    } else {
+      navigate(-1);
+    }
+  }
+
   return (
     <header className="app-header">
-      {showBack ? (
-        <button className="header-btn-img" onClick={onBackClick} aria-label="Back">
-          <img src={backArrowImg} alt="Back" className="header-back-arrow" />
-        </button>
-      ) : (
-        <button className="header-btn-img" onClick={onTicketsClick} aria-label="Tickets">
-          <img src={ticketImg} alt="Tickets" className="header-ticket" />
-        </button>
-      )}
-
-      <div className="header-center">
-        <img src={sunImg} alt="Sun" className="header-sun" />
-        <div className="header-text">
-          <span className="header-title">BLÅ SOL</span>
-          <span className="header-sub">6. JUNI 2026</span>
-        </div>
+      <div className="header-left">
+        {isBackHeader ? (
+          <button
+            className="header-btn"
+            onClick={handleBackClick}
+            aria-label="Go back"
+          >
+            <img src={backArrowImg} alt="Back" className="header-back-icon" />
+          </button>
+        ) : (
+          <button className="header-btn header-ticket-btn" aria-label="Tickets">
+            <img src={ticketImg} alt="Tickets" className="header-icon" />
+          </button>
+        )}
       </div>
 
-      {showBack ? (
-        <div style={{ width: 70 }} />
-      ) : (
-        <button className="header-btn-img" onClick={onProfileClick} aria-label="Profile">
-          <img src={accountImg} alt="Account" className="header-ticket" />
-        </button>
-      )}
+      <button
+        className="header-logo-btn"
+        onClick={() => navigate("/")}
+        aria-label="Go to homepage"
+      >
+        <img src={logoImg} alt="BLÅ SOL" className="header-logo" />
+      </button>
+
+      <div className="header-right">
+        {!isBackHeader && (
+          <button
+            className="header-btn"
+            onClick={() => navigate("/profile")}
+            aria-label="Go to profile"
+          >
+            <img src={accountImg} alt="Profile" className="header-icon" />
+          </button>
+        )}
+      </div>
     </header>
   );
 }

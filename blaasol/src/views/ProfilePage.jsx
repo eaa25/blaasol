@@ -103,7 +103,7 @@ export default function ProfilePage({ onBack }) {
   if (editing) {
     return (
       <div className="profile-page">
-        <Header showBack onBackClick={() => setEditing(false)} />
+        <Header variant="back" onBackClick={() => setEditing(false)} />
         <main className="detail-main edit-mode">
           {/* Hidden file input — triggered by the "Edit" label below */}
           <input
@@ -135,7 +135,7 @@ export default function ProfilePage({ onBack }) {
   // ── Normal profile view ──
   return (
     <div className="profile-page">
-      <Header showBack onBackClick={onBack} />
+      <Header variant="back" onBackClick={onBack} />
 
       <main className="profile-main">
         {/* Top section: photo, name, friend count, edit & share buttons */}
