@@ -63,9 +63,90 @@ export default function MapPage() {
     setTransform({ scale: 1, x: 0, y: 0 });
   }
 
+  // Block browser scroll/bounce on the whole page while map is mounted.
+  // Allow scrolling only inside the friends list.
+  useEffect(() => {
+    function blockScroll(e) {
+      if (e.target.closest(".friends-list")) return;
+      e.preventDefault();
+    }
+    document.addEventListener("touchmove", blockScroll, { passive: false });
+    return () => document.removeEventListener("touchmove", blockScroll);
+  }, []);
+
   useEffect(() => {
     const el = mapRef.current;
     if (!el) return;
+
+    // Cloned touch arrays so we can compare previous vs current positions
+    let lastTouches = null;
+
+    function dist(t1, t2) {
+      const dx = t1.clientX - t2.clientX;
+      const dy = t1.clientY - t2.clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function mid(t1, t2) {
+      return { x: (t1.clientX + t2.clientX) / 2, y: (t1.clientY + t2.clientY) / 2 };
+    }
+
+    function handleTouchStart(e) {
+      e.preventDefault();
+      lastTouches = Array.from(e.touches);
+    }
+
+    function handleTouchMove(e) {
+      e.preventDefault();
+      if (!lastTouches) return;
+
+      const touches = Array.from(e.touches);
+
+      if (touches.length === 1 && lastTouches.length === 1) {
+        // Single-finger pan — only when zoomed in
+        const dx = touches[0].clientX - lastTouches[0].clientX;
+        const dy = touches[0].clientY - lastTouches[0].clientY;
+        setTransform((prev) => {
+          if (prev.scale <= 1) return prev;
+          return { ...prev, x: prev.x + dx, y: prev.y + dy };
+        });
+
+      } else if (touches.length === 2) {
+        const rect = el.getBoundingClientRect();
+        const newMid = mid(touches[0], touches[1]);
+        const newDist = dist(touches[0], touches[1]);
+
+        setTransform((prev) => {
+          let nextScale = prev.scale;
+          let nextX = prev.x;
+          let nextY = prev.y;
+
+          if (lastTouches.length === 2) {
+            const prevMid = mid(lastTouches[0], lastTouches[1]);
+            const prevDist = dist(lastTouches[0], lastTouches[1]);
+
+            // Scale pivoted at pinch midpoint
+            const zoomFactor = prevDist > 0 ? newDist / prevDist : 1;
+            nextScale = Math.min(Math.max(prev.scale * zoomFactor, 0.5), 6);
+            const scaleChange = nextScale / prev.scale;
+            const mx = newMid.x - rect.left;
+            const my = newMid.y - rect.top;
+            nextX = mx - (mx - prev.x) * scaleChange + (newMid.x - prevMid.x);
+            nextY = my - (my - prev.y) * scaleChange + (newMid.y - prevMid.y);
+          }
+
+          if (nextScale <= 1) return { scale: 1, x: 0, y: 0 };
+          return { scale: nextScale, x: nextX, y: nextY };
+        });
+      }
+
+      lastTouches = touches;
+    }
+
+    function handleTouchEnd(e) {
+      e.preventDefault();
+      lastTouches = Array.from(e.touches);
+    }
 
     function handleWheel(e) {
       e.preventDefault();
@@ -91,15 +172,21 @@ export default function MapPage() {
       });
     }
 
+    el.addEventListener("touchstart", handleTouchStart, { passive: false });
+    el.addEventListener("touchmove", handleTouchMove, { passive: false });
+    el.addEventListener("touchend", handleTouchEnd, { passive: false });
     el.addEventListener("wheel", handleWheel, { passive: false });
 
     return () => {
+      el.removeEventListener("touchstart", handleTouchStart);
+      el.removeEventListener("touchmove", handleTouchMove);
+      el.removeEventListener("touchend", handleTouchEnd);
       el.removeEventListener("wheel", handleWheel);
     };
   }, []);
 
   function handleMouseDown(e) {
-    if (transform.scale === 1) return;
+    if (transform.scale <= 1) return;
 
     dragRef.current = {
       isDragging: true,
