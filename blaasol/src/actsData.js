@@ -6,18 +6,17 @@ import selvglad from "./assets/selvglad.png";
 import naturalbornhippies from "./assets/naturalbornhippies.png";
 import zarpaulo from "./assets/zarpaulo.png";
 import elakelaset from "./assets/ELÄKELÄISET.png";
-// Friend portraits — replace these files in assets/ with the real photos
-import lauraImg from "./assets/ellapersona.png";
-import sofieImg from "./assets/ellapersona.png";
-import emmaImg from "./assets/ellapersona.png";
-import cecilieImg from "./assets/ellapersona.png";
+import emmaImg     from "./assets/emma.png";
+import frederikImg  from "./assets/frederik.png";
+import claraImg     from "./assets/clara.png";
+import sofieImg     from "./assets/sofie.png";
 
 // Friends shown as circular profile photos in Group Schedule
 export const FRIENDS = [
-  { id: 1, name: "Laura",   img: lauraImg },
-  { id: 2, name: "Sofie",   img: sofieImg },
-  { id: 3, name: "Emma",    img: emmaImg },
-  { id: 4, name: "Cecilie", img: cecilieImg },
+  { id: 1, name: "Emma",     img: emmaImg },
+  { id: 2, name: "Frederik", img: frederikImg },
+  { id: 3, name: "Clara",    img: claraImg },
+  { id: 4, name: "Sofie",    img: sofieImg },
 ];
 
 // friendLikes = which friend IDs have liked this act (mock data)

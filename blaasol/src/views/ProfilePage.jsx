@@ -14,6 +14,7 @@ import NavBar from "../components/NavBar";
 import QRPage from "./QRPage";
 import FriendProfilePage from "./FriendProfilePage";
 import { ACTS } from "../actsData";
+import { useLikedArtists } from "../useLikedArtists";
 import ellapersona from "../assets/ellapersona.png";
 import "./ProfilePage.css";
 
@@ -45,7 +46,8 @@ function ShareIcon() {
   );
 }
 
-export default function ProfilePage({ onBack, likedArtists }) {
+export default function ProfilePage({ onBack }) {
+  const [likedArtists] = useLikedArtists();
   const [activeTab, setActiveTab]           = useState("group");
   const [activeSection, setActiveSection]   = useState("friends"); // "friends" or "artists" tab
   const [editing, setEditing]               = useState(false);     // true = edit mode open

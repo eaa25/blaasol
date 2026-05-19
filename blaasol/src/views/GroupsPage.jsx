@@ -14,7 +14,7 @@ import GroupDetailPage from "./GroupDetailPage";
 import JoinGroupPage from "./JoinGroupPage";
 import CreateGroupPage from "./CreateGroupPage";
 import ProfilePage from "./ProfilePage";
-import SchedulePage from "./SchedulePage";
+import SchedulePage from "./Schedule";
 import img1 from "../assets/groupimg/bass&besties.png";
 import img2 from "../assets/groupimg/bluecrew.png";
 import img3 from "../assets/groupimg/lastones.png";
@@ -48,9 +48,6 @@ export default function GroupsPage() {
   const [showProfile, setShowProfile]     = useState(false);
   const [profileFromMenu, setProfileFromMenu] = useState(false); // true = profile was opened via menu
   const [showMenu, setShowMenu]           = useState(false);
-  const [showSchedule, setShowSchedule]   = useState(false);
-  // Set of act IDs the user has liked from the schedule
-  const [likedArtists, setLikedArtists]   = useState(new Set());
   // Live list of groups — updated when user creates, edits or leaves a group
   const [groupList, setGroupList]     = useState(groups);
 
@@ -93,36 +90,9 @@ export default function GroupsPage() {
     return false; // wrong code — JoinGroupPage shows an error
   }
 
-  // Toggles an act in/out of the liked set
-  function handleToggleLike(actId) {
-    setLikedArtists(prev => {
-      const next = new Set(prev);
-      next.has(actId) ? next.delete(actId) : next.add(actId);
-      return next;
-    });
-  }
-
   // ── Page routing — show the right screen based on state ──
-  if (showSchedule) {
-    return <SchedulePage
-      likedArtists={likedArtists}
-      onToggleLike={handleToggleLike}
-      onGroupClick={() => { setShowSchedule(false); setActiveTab("group"); }}
-      onMenuClick={() => { setShowSchedule(false); setShowMenu(true); }}
-      onProfileClick={() => { setShowSchedule(false); setShowProfile(true); }}
-    />;
-  }
-
-  if (showMenu) {
-    return <MenuPage
-      onGroupClick={() => setShowMenu(false)}
-      onAccountClick={() => { setShowMenu(false); setShowProfile(true); setProfileFromMenu(true); }}
-    />;
-  }
-
   if (showProfile) {
     return <ProfilePage
-      likedArtists={likedArtists}
       onBack={() => {
         setShowProfile(false);
         if (profileFromMenu) { setProfileFromMenu(false); setShowMenu(true); }
@@ -184,7 +154,6 @@ export default function GroupsPage() {
       <NavBar
         active={activeTab}
         onTabChange={setActiveTab}
-        onScheduleClick={() => { setActiveTab("schedule"); setShowSchedule(true); }}
         onMenuClick={() => setShowMenu(true)}
       />
 
