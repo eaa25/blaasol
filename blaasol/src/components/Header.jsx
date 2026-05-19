@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import logoImg from "../assets/header/logo-light-blue.png";
+import logoImg from "../assets/header/logo-light-blue.svg";
 import ticketImg from "../assets/header/ticket-icon.png";
 import accountImg from "../assets/header/account-icon.png";
 import backArrowImg from "../assets/header/backarrow.png";

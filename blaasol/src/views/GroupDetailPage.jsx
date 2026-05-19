@@ -9,6 +9,7 @@
 // ─────────────────────────────────────────────
 
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import ellapersona from "../assets/ellapersona.png";
 import programIcon from "../assets/program icon.png";
@@ -37,6 +38,8 @@ export default function GroupDetailPage({
   onLeave,
   onProfileClick,
 }) {
+  const navigate = useNavigate();
+
   const [activeTab, setActiveTab] = useState("group");
   const [editing, setEditing] = useState(false);
   const [showQR, setShowQR] = useState(false);
@@ -144,7 +147,10 @@ export default function GroupDetailPage({
         </button>
 
         <div className="detail-actions">
-          <button className="detail-action-btn">
+          <button
+            className="detail-action-btn"
+            onClick={() => navigate("/schedule")}
+          >
             <img
               src={programIcon}
               alt="Group schedule"
@@ -153,7 +159,10 @@ export default function GroupDetailPage({
             <span>Group schedule</span>
           </button>
 
-          <button className="detail-action-btn" onClick={() => setShowQR(true)}>
+          <button
+            className="detail-action-btn"
+            onClick={() => setShowQR(true)}
+          >
             <img
               src={vectorIcon}
               alt="Show QR code"
@@ -162,7 +171,10 @@ export default function GroupDetailPage({
             <span>Show QR code</span>
           </button>
 
-          <button className="detail-action-btn">
+          <button
+            className="detail-action-btn"
+            onClick={() => navigate("/map")}
+          >
             <img
               src={mapIcon}
               alt="Find my group"
