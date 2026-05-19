@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Homepage from "./views/Homepage";
+import FestivalApp from "./components/FestivalApp";
+
 import Schedule from "./views/Schedule";
 import MapPage from "./views/MapPage";
 import GroupsPage from "./views/GroupsPage";
@@ -11,7 +12,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Homepage />} />
+        <Route path="/" element={<FestivalApp />} />
+
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/groups" element={<GroupsPage />} />
