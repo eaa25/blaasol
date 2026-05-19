@@ -1,19 +1,24 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import FestivalApp from "./components/FestivalApp";
-
+import Homepage from "./views/Homepage";
 import Schedule from "./views/Schedule";
 import MapPage from "./views/MapPage";
 import GroupsPage from "./views/GroupsPage";
 import MenuPage from "./views/MenuPage";
 import ProfilePage from "./views/ProfilePage";
 
+import FestivalApp from "./components/FestivalApp";
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+
+        {/* start page */}
         <Route path="/" element={<FestivalApp />} />
 
+        {/* existing app */}
+        <Route path="/homepage" element={<Homepage />} />
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/groups" element={<GroupsPage />} />

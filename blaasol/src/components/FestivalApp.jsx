@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 
 import landingImg from "../images/first.png";
@@ -11,6 +12,7 @@ import news2 from "../images/spotyourself.png";
 import "./FestivalApp.css";
 
 function FestivalApp() {
+   
   const [started, setStarted] = useState(false);
 
   const [timeLeft, setTimeLeft] = useState({
