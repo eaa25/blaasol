@@ -13,7 +13,7 @@ import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import QRPage from "./QRPage";
 import FriendProfilePage from "./FriendProfilePage";
-import { ACTS } from "./actsData";
+import { ACTS } from "../actsData";
 import ellapersona from "../assets/ellapersona.png";
 import "./ProfilePage.css";
 
