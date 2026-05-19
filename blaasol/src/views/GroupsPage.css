@@ -1,0 +1,151 @@
+.groups-page {
+  height: 100dvh;
+  background-color: #E5F0F3;
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, sans-serif;
+  overflow: hidden;
+  position: relative;
+
+  @media (min-width: 600px) {
+    max-width: 430px;
+    margin: 0 auto;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.groups-main {
+  flex: 1;
+  padding: 24px 20px;
+  overflow-y: auto;
+}
+
+.groups-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.groups-title {
+  font-family: 'Bowlby One', system-ui, sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  color: #1B4591;
+  letter-spacing: -0.5px;
+  margin: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.add-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #1B4591;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.groups-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.group-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+}
+
+.group-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.group-name {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1B4591;
+}
+
+.group-divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: rgba(21, 101, 192, 0.25);
+}
+
+/* Popup */
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(0); }
+}
+
+.popup-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-top: 28px;
+}
+
+.popup-card {
+  background: white;
+  border-radius: 0 0 24px 24px;
+  padding: 16px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  animation: slideDown 0.35s ease-out;
+}
+
+.popup-close {
+  position: absolute;
+  top: -20px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #1B4591;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.popup-btn {
+  font-family: 'Bowlby One', system-ui, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: white;
+  background-color: #009DDB;
+  border: none;
+  border-radius: 14px;
+  padding: 16px 16px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  line-height: 1.2;
+}

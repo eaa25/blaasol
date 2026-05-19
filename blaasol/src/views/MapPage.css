@@ -1,0 +1,354 @@
+.map-page {
+  height: 100dvh;
+  background-color: #E5F0F3;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Poppins', system-ui, sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+@media (min-width: 600px) {
+  .map-page {
+    max-width: 430px;
+    margin: 0 auto;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.map-area {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* MAP */
+
+.map-zoom-area {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 1;
+  overscroll-behavior: contain;
+  touch-action: none;
+}
+
+.map-transform-layer {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+}
+
+.map-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: 0 0;
+  user-select: none;
+  cursor: grab;
+}
+
+.friend-map-pin {
+  position: absolute;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  border: 5px solid;
+  padding: 0;
+  background: white;
+  overflow: hidden;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.friend-map-pin img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* LEFT BUTTONS */
+
+.map-controls {
+  position: absolute;
+  top: 24px;
+  left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 5;
+}
+
+.map-round-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #1B4591;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* FRIENDS PANEL */
+
+.friends-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 58%;
+  background: rgba(229, 240, 243, 0.88);
+  border-radius: 22px 22px 0 0;
+  padding: 18px;
+  z-index: 6;
+  overflow: hidden;
+  font-family: 'Poppins', system-ui, sans-serif;
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease;
+  animation: friendsPanelIn 0.28s ease;
+}
+
+.friends-panel.closed {
+  transform: translateY(calc(100% - 88px));
+}
+
+.panel-top {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.group-select-btn {
+  width: fit-content;
+  max-width: calc(100% - 58px);
+
+  height: 52px;
+
+  border: 3px solid #1B4591;
+  border-radius: 10px;
+
+  background: transparent;
+  color: #1B4591;
+
+  font-family: 'Bowlby One', system-ui, sans-serif;
+  font-size: 25px;
+  line-height: 1;
+
+  padding: 0 14px 0 16px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  cursor: pointer;
+}
+
+.group-chevron {
+  flex-shrink: 0;
+}
+
+.panel-toggle-btn {
+  position: absolute;
+  right: 8px;
+  top: 2px;
+
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #1B4591;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel-close-icon,
+.panel-arrow {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* FRIENDS LIST */
+
+.friends-list {
+  margin-top: 2px;
+  overflow-y: auto;
+  max-height: 360px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.friends-list::-webkit-scrollbar {
+  display: none;
+}
+
+.friend-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(0, 178, 200, 0.35);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font-family: 'Poppins', system-ui, sans-serif;
+}
+
+.friend-avatar {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 4px solid white;
+}
+
+.friend-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: 'Poppins', system-ui, sans-serif;
+}
+
+.friend-name {
+  font-family: 'Poppins', system-ui, sans-serif !important;
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.friend-info p {
+  margin: 0;
+  color: #1B4591;
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 18px;
+  display: flex;
+  gap: 22px;
+}
+
+/* FRIEND DETAIL PANEL */
+
+.friend-detail-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(229, 240, 243, 0.88);
+  border-radius: 22px 22px 0 0;
+  padding: 28px 18px 30px;
+  z-index: 7;
+  font-family: 'Poppins', system-ui, sans-serif;
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease;
+  animation: detailPanelIn 0.28s ease;
+}
+
+.friend-detail-close {
+  position: absolute;
+  top: 28px;
+  right: 22px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #1B4591;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.friend-detail-top {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.friend-detail-avatar {
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  border: 7px solid;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.friend-detail-info h2 {
+  margin: 0 0 8px;
+  font-family: 'Bowlby One', system-ui, sans-serif;
+  font-size: 34px;
+  line-height: 1.35;
+  font-weight: 400;
+}
+
+.friend-detail-info p {
+  margin: 0;
+  color: #1B4591;
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 17px;
+  display: flex;
+  gap: 14px;
+  white-space: nowrap;
+}
+
+.friend-detail-actions {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.friend-action-card {
+  height: 132px;
+  border-radius: 18px;
+  padding: 18px 14px;
+  background: #1B4591;
+  color: white;
+  font-family: 'Bowlby One', system-ui, sans-serif;
+  font-size: 20px;
+  line-height: 1.2;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.friend-action-card svg {
+  flex-shrink: 0;
+}
+
+/* ANIMATIONS */
+
+@keyframes detailPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes friendsPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

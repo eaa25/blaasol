@@ -1,0 +1,71 @@
+.menu-page {
+  height: 100dvh;
+  background-color: #E5F0F3;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+
+  @media (min-width: 600px) {
+    max-width: 430px;
+    margin: 0 auto;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Dark blue header bar — full width, 95px tall */
+.menu-header {
+  background-color: #1B4591;
+  width: 100%;
+  height: 95px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.menu-header-title {
+  font-family: 'Bowlby One', system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: white;
+}
+
+.menu-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+/* Menu items list */
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 22px 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.menu-item-label {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #1B4591;
+}
+
+.menu-divider {
+  height: 1px;
+  background-color: rgba(27, 69, 145, 0.2);
+  margin: 0 24px;
+}
