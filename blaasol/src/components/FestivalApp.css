@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=Poppins:wght@400;600;700&display=swap');
+
+body {
+  margin: 0;
+
+  background: #8e8e8e;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 100vh;
+
+  font-family: 'Poppins', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* PHONE */
+
+.phone-frame {
+  width: 430px;
+  height: 932px;
+
+  background: #dfeaed;
+
+  border-radius: 45px;
+
+  overflow: hidden;
+
+  box-shadow: 0 0 40px rgba(0,0,0,0.25);
+
+  position: relative;
+}
+
+/* LANDING */
+
+.landing {
+  width: 100%;
+  height: 100%;
+
+  cursor: pointer;
+}
+
+.landing-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+/* APP */
+
+.app {
+  width: 100%;
+  height: 100%;
+
+  overflow-y: auto;
+
+  background: #dfeaed;
+
+  padding-bottom: 120px;
+}
+
+/* TOPBAR */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 25px 20px;
+}
+
+.circle-btn {
+  width: 58px;
+  height: 58px;
+
+  border-radius: 50%;
+
+  border: none;
+
+  background: #009ddb;
+
+  color: white;
+
+  font-size: 24px;
+
+  cursor: pointer;
+}
+
+.logo {
+  text-align: center;
+}
+
+.logo h1 {
+  margin: 0;
+
+  color: #009ddb;
+
+  font-size: 42px;
+
+  font-family: 'Bowlby One SC', cursive;
+
+  line-height: 1;
+}
+
+.logo p {
+  margin: 0;
+
+  color: #009ddb;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+/* COUNTDOWN */
+
+.countdown-box {
+  margin: 0 20px;
+
+  background: #cfe8ef;
+
+  border-radius: 25px;
+
+  padding: 30px 20px;
+
+  text-align: center;
+}
+
+.countdown-box h2 {
+  margin-top: 0;
+
+  color: #1b4591;
+
+  font-size: 38px;
+
+  font-family: 'Bowlby One SC', cursive;
+}
+
+.countdown {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 25px;
+}
+
+.countdown span {
+  display: block;
+
+  color: #009ddb;
+
+  font-size: 50px;
+
+  font-weight: 700;
+}
+
+.countdown p {
+  color: #1b4591;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+/* SECTION */
+
+.section {
+  margin-top: 30px;
+
+  padding-left: 20px;
+}
+
+.section h2 {
+  margin-bottom: 15px;
+
+  color: #1b4591;
+
+  font-size: 42px;
+
+  font-family: 'Bowlby One SC', cursive;
+}
+
+/* HORIZONTAL SCROLL */
+
+.horizontal-scroll {
+  display: flex;
+
+  gap: 20px;
+
+  overflow-x: auto;
+
+  padding-right: 20px;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* CARD */
+
+.card {
+  min-width: 310px;
+}
+
+.card img {
+  width: 100%;
+  height: 220px;
+
+  object-fit: contain;
+}
+
+.card h3 {
+  margin-top: 10px;
+
+  color: #1b4591;
+
+  font-size: 26px;
+
+  font-weight: 700;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav {
+  position: absolute;
+
+  bottom: 0;
+
+  width: 100%;
+  height: 95px;
+
+  background: #ffacce;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  color: #1b4591;
+
+  font-weight: 700;
+}
