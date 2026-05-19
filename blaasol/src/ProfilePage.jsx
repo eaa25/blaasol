@@ -13,6 +13,7 @@ import Header from "./Header";
 import NavBar from "./NavBar";
 import QRPage from "./QRPage";
 import FriendProfilePage from "./FriendProfilePage";
+import { ACTS } from "./actsData";
 import ellapersona from "./assets/ellapersona.png";
 import "./ProfilePage.css";
 
@@ -44,7 +45,7 @@ function ShareIcon() {
   );
 }
 
-export default function ProfilePage({ onBack }) {
+export default function ProfilePage({ onBack, likedArtists }) {
   const [activeTab, setActiveTab]           = useState("group");
   const [activeSection, setActiveSection]   = useState("friends"); // "friends" or "artists" tab
   const [editing, setEditing]               = useState(false);     // true = edit mode open
@@ -186,10 +187,26 @@ export default function ProfilePage({ onBack }) {
           </ul>
         )}
 
-        {/* Artists tab — placeholder for future feature */}
-        {activeSection === "artists" && (
-          <p className="profile-empty">No artists saved yet.</p>
-        )}
+        {/* Artists tab — shows acts the user has liked in the schedule */}
+        {activeSection === "artists" && (() => {
+          const liked = ACTS.filter(a => likedArtists?.has(a.id));
+          return liked.length === 0 ? (
+            <p className="profile-empty">No artists saved yet. Like artists in the schedule.</p>
+          ) : (
+            <ul className="profile-list">
+              {liked.map((act, i) => (
+                <li key={act.id} className="profile-list-item">
+                  <img src={act.img} alt={act.name} className="profile-artist-img" />
+                  <div className="profile-artist-info">
+                    <span className="profile-list-name">{act.name}</span>
+                    <span className="profile-artist-meta">{act.time} · {act.venue}</span>
+                  </div>
+                  {i < liked.length - 1 && <div className="profile-list-divider" />}
+                </li>
+              ))}
+            </ul>
+          );
+        })()}
       </main>
 
       <NavBar active={activeTab} onTabChange={setActiveTab} onGroupClick={onBack} />

@@ -13,7 +13,7 @@ const tabs = [
   { id: "menu",     label: "Menu",     img: menuImg },
 ];
 
-export default function NavBar({ active = "group", onTabChange, onGroupClick, onMenuClick }) {
+export default function NavBar({ active = "group", onTabChange, onGroupClick, onScheduleClick, onMenuClick }) {
   return (
     <nav className="bottom-nav">
       <div className="nav-wave">
@@ -29,6 +29,8 @@ export default function NavBar({ active = "group", onTabChange, onGroupClick, on
             onClick={() => {
               if (tab.id === "group" && onGroupClick) {
                 onGroupClick();
+              } else if (tab.id === "schedule" && onScheduleClick) {
+                onScheduleClick();
               } else if (tab.id === "menu" && onMenuClick) {
                 onMenuClick();
               } else {
