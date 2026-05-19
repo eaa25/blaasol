@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=Poppins:wght@400;600;700&display=swap');
+
+.festival-page {
+  height: 100dvh;
+
+  background-color: #E5F0F3;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  position: relative;
+
+  font-family: 'Poppins', sans-serif;
+
+  @media (min-width: 600px) {
+    max-width: 430px;
+    margin: 0 auto;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* LANDING */
+
+.landing {
+  width: 100%;
+  height: 100%;
+
+  cursor: pointer;
+}
+
+.landing-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+/* MAIN */
+
+.festival-main {
+  flex: 1;
+
+  overflow-y: auto;
+
+  padding: 20px;
+}
+
+/* COUNTDOWN */
+
+.countdown-box {
+  background: #cfe8ef;
+
+  border-radius: 24px;
+
+  padding: 28px 20px;
+
+  text-align: center;
+}
+
+.countdown-box h2 {
+  margin: 0;
+
+  color: #1B4591;
+
+  font-size: 36px;
+
+  font-family: 'Bowlby One SC', cursive;
+
+  line-height: 1;
+}
+
+.countdown {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 24px;
+}
+
+.countdown span {
+  display: block;
+
+  color: #009DDB;
+
+  font-size: 48px;
+
+  font-weight: 700;
+
+  line-height: 1;
+}
+
+.countdown p {
+  margin-top: 6px;
+
+  color: #1B4591;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+/* SECTION */
+
+.section {
+  margin-top: 32px;
+}
+
+.section h2 {
+  margin: 0 0 18px;
+
+  color: #1B4591;
+
+  font-size: 38px;
+
+  font-family: 'Bowlby One SC', cursive;
+
+  line-height: 1;
+}
+
+/* HORIZONTAL SCROLL */
+
+.horizontal-scroll {
+  display: flex;
+
+  gap: 18px;
+
+  overflow-x: auto;
+
+  padding-bottom: 6px;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* CARD */
+
+.card {
+  min-width: 290px;
+}
+
+.card img {
+  width: 100%;
+
+  height: 210px;
+
+  object-fit: contain;
+
+  display: block;
+}
+
+.card h3 {
+  margin-top: 10px;
+
+  color: #1B4591;
+
+  font-size: 24px;
+
+  font-weight: 700;
+
+  line-height: 1.1;
+}

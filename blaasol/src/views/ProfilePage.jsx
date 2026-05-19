@@ -9,12 +9,12 @@
 // ─────────────────────────────────────────────
 
 import { useState, useRef, useEffect } from "react";
-import Header from "./Header";
-import NavBar from "./NavBar";
+import Header from "../components/Header";
+import NavBar from "../components/NavBar";
 import QRPage from "./QRPage";
 import FriendProfilePage from "./FriendProfilePage";
 import { ACTS } from "./actsData";
-import ellapersona from "./assets/ellapersona.png";
+import ellapersona from "../assets/ellapersona.png";
 import "./ProfilePage.css";
 
 // Your friends list shown on the profile
@@ -102,7 +102,7 @@ export default function ProfilePage({ onBack, likedArtists }) {
   if (editing) {
     return (
       <div className="profile-page">
-        <Header showBack onBackClick={() => setEditing(false)} />
+        <Header variant="back" onBackClick={() => setEditing(false)} />
         <main className="detail-main edit-mode">
           {/* Hidden file input — triggered by the "Edit" label below */}
           <input
@@ -134,7 +134,7 @@ export default function ProfilePage({ onBack, likedArtists }) {
   // ── Normal profile view ──
   return (
     <div className="profile-page">
-      <Header showBack onBackClick={onBack} />
+      <Header variant="back" onBackClick={onBack} />
 
       <main className="profile-main">
         {/* Top section: photo, name, friend count, edit & share buttons */}

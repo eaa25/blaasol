@@ -8,31 +8,31 @@
 // ─────────────────────────────────────────────
 
 import { useState } from "react";
-import Header from "./Header";
-import NavBar from "./NavBar";
+import Header from "../components/Header";
+import NavBar from "../components/NavBar";
 import GroupDetailPage from "./GroupDetailPage";
 import JoinGroupPage from "./JoinGroupPage";
 import CreateGroupPage from "./CreateGroupPage";
 import ProfilePage from "./ProfilePage";
-import MenuPage from "./MenuPage";
 import SchedulePage from "./SchedulePage";
-import img1 from "./assets/anastasia.png";
-import img2 from "./assets/selvglad.png";
-import img3 from "./assets/bonad.png";
-import img4 from "./assets/specktors.png";
-import img5 from "./assets/gnags.png";
-import img6 from "./assets/zarpaulo.png";
+import img1 from "../assets/groupimg/bass&besties.png";
+import img2 from "../assets/groupimg/bluecrew.png";
+import img3 from "../assets/groupimg/lastones.png";
+import img4 from "../assets/groupimg/blaabuddies.png";
+import img5 from "../assets/groupimg/miccheckcrew.png";
+import img6 from "../assets/groupimg/beerpressure.png";
+import img7 from "../assets/groupimg/sunburnsociety.png";
 import "./GroupsPage.css";
 
 // Starting list of groups — each has an id, name, avatar image, and optional invite code
 const groups = [
   { id: 1, name: "Bass & Besties",     avatar: img1, inviteCode: "BB345" },
-  { id: 2, name: "Blue Crew",           avatar: img2 },
-  { id: 3, name: "Last Ones Standing",  avatar: img3 },
-  { id: 4, name: "Blå Buddies",         avatar: img4 },
-  { id: 5, name: "Mic Check Crew",      avatar: img5 },
-  { id: 6, name: "Beer Pressure",       avatar: img6 },
-  { id: 7, name: "Sunburn Society",     avatar: img6 },
+  { id: 2, name: "Blue Crew",           avatar: img2, inviteCode: "BLUE123" },
+  { id: 3, name: "Last Ones Standing",  avatar: img3, inviteCode: "LAST123" },
+  { id: 4, name: "Blå Buddies",         avatar: img4, inviteCode: "BLA123" },
+  { id: 5, name: "Mic Check Crew",      avatar: img5, inviteCode: "MIC123" },
+  { id: 6, name: "Beer Pressure",       avatar: img6, inviteCode: "BEER789" },
+  { id: 7, name: "Sunburn Society",     avatar: img7, inviteCode: "SUN123" },
 ];
 
 export default function GroupsPage() {
@@ -171,7 +171,9 @@ export default function GroupsPage() {
         <ul className="groups-list">
           {groupList.map((group, i) => (
             <li key={group.id} className="group-item" onClick={() => setSelectedGroup(group)}>
-              <img src={group.avatar} alt={group.name} className="group-avatar" />
+              <div className="group-avatar">
+                <img src={group.avatar} alt={group.name} />
+              </div>
               <span className="group-name">{group.name}</span>
               {i < groups.length - 1 && <div className="group-divider" />}
             </li>

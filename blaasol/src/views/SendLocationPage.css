@@ -1,0 +1,202 @@
+.send-location-page {
+  height: 100dvh;
+  background-color: #E5F0F3;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Poppins', system-ui, sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+@media (min-width: 600px) {
+  .send-location-page {
+    max-width: 430px;
+    margin: 0 auto;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.send-location-main {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.send-location-intro {
+  padding: 34px 18px 28px;
+  text-align: center;
+}
+
+.send-location-intro h1 {
+  margin: 0 0 14px;
+  font-family: 'Bowlby One', system-ui, sans-serif;
+  font-size: 34px;
+  line-height: 1.05;
+  color: #1B4591;
+}
+
+.send-location-intro p {
+  margin: 0;
+  color: #1B4591;
+  font-size: 17px;
+  line-height: 1.45;
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-weight: 400 !important;
+}
+
+.send-friends-list {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 160px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.send-friends-list::-webkit-scrollbar {
+  display: none;
+}
+
+.send-friend-row {
+  width: 100%;
+  min-height: 86px;
+  padding: 10px 26px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 178, 200, 0.45);
+  background: transparent;
+  color: #1B4591;
+  display: grid;
+  grid-template-columns: 70px 1fr 48px;
+  align-items: center;
+  gap: 18px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.send-friend-row.selected {
+  background: #1B4591;
+  color: white;
+}
+
+.send-friend-row img {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.send-friend-row span {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.send-icon {
+  justify-self: end;
+  color: currentColor;
+}
+
+.send-fixed-btn {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  width: 148px;
+  height: 76px;
+  border: none;
+  border-radius: 4px;
+  background: #1B4591;
+  color: white;
+  font-family: 'Bowlby One', system-ui, sans-serif;
+  font-size: 38px;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
+}
+
+.send-location-page .send-location-main .send-location-intro p {
+  font-family: 'Poppins', system-ui, sans-serif !important;
+  font-weight: 400 !important;
+}
+
+/* CONFIRMATION POPUP */
+.location-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.35);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+.popup-fade-out {
+  opacity: 0;
+}
+
+.location-popup {
+  width: min(88vw, 620px);
+  min-height: 430px;
+
+  background: #eaf7fa;
+  border-radius: 28px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 70px;
+  padding: 60px 28px;
+
+  animation: popupScale 0.3s ease;
+}
+
+@keyframes popupScale {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.location-check-circle {
+  width: 175px;
+  height: 175px;
+
+  border: 14px solid #07a5df;
+  border-radius: 50%;
+
+  color: #07a5df;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.location-check-circle svg {
+  width: 105px;
+  height: 105px;
+}
+
+.location-popup h2 {
+  margin: 0;
+
+  font-family: "Bowlby One", sans-serif;
+  font-size: clamp(28px, 5vw, 50px);
+
+  color: #19499a;
+
+  text-align: center;
+  letter-spacing: 1px;
+}
