@@ -1,38 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=Poppins:wght@400;600;700&display=swap');
 
-body {
-  margin: 0;
+.festival-page {
+  height: 100dvh;
 
-  background: #8e8e8e;
+  background-color: #E5F0F3;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
-
-  min-height: 100vh;
-
-  font-family: 'Poppins', sans-serif;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-/* PHONE */
-
-.phone-frame {
-  width: 430px;
-  height: 932px;
-
-  background: #dfeaed;
-
-  border-radius: 45px;
+  flex-direction: column;
 
   overflow: hidden;
 
-  box-shadow: 0 0 40px rgba(0,0,0,0.25);
-
   position: relative;
+
+  font-family: 'Poppins', sans-serif;
+
+  @media (min-width: 600px) {
+    max-width: 430px;
+    margin: 0 auto;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+  }
 }
 
 /* LANDING */
@@ -51,115 +37,63 @@ body {
   object-fit: cover;
 }
 
-/* APP */
+/* MAIN */
 
-.app {
-  width: 100%;
-  height: 100%;
+.festival-main {
+  flex: 1;
 
   overflow-y: auto;
 
-  background: #dfeaed;
-
-  padding-bottom: 120px;
+  padding: 20px;
 }
 
-/* TOPBAR */
+/* COUNTDOWN */
 
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.countdown-box {
+  background: #cfe8ef;
 
-  padding: 25px 20px;
-}
+  border-radius: 24px;
 
-.circle-btn {
-  width: 58px;
-  height: 58px;
+  padding: 28px 20px;
 
-  border-radius: 50%;
-
-  border: none;
-
-  background: #009ddb;
-
-  color: white;
-
-  font-size: 24px;
-
-  cursor: pointer;
-}
-
-.logo {
   text-align: center;
 }
 
-.logo h1 {
+.countdown-box h2 {
   margin: 0;
 
-  color: #009ddb;
+  color: #1B4591;
 
-  font-size: 42px;
+  font-size: 36px;
 
   font-family: 'Bowlby One SC', cursive;
 
   line-height: 1;
 }
 
-.logo p {
-  margin: 0;
-
-  color: #009ddb;
-
-  font-weight: 700;
-
-  letter-spacing: 1px;
-}
-
-/* COUNTDOWN */
-
-.countdown-box {
-  margin: 0 20px;
-
-  background: #cfe8ef;
-
-  border-radius: 25px;
-
-  padding: 30px 20px;
-
-  text-align: center;
-}
-
-.countdown-box h2 {
-  margin-top: 0;
-
-  color: #1b4591;
-
-  font-size: 38px;
-
-  font-family: 'Bowlby One SC', cursive;
-}
-
 .countdown {
   display: flex;
   justify-content: space-between;
 
-  margin-top: 25px;
+  margin-top: 24px;
 }
 
 .countdown span {
   display: block;
 
-  color: #009ddb;
+  color: #009DDB;
 
-  font-size: 50px;
+  font-size: 48px;
 
   font-weight: 700;
+
+  line-height: 1;
 }
 
 .countdown p {
-  color: #1b4591;
+  margin-top: 6px;
+
+  color: #1B4591;
 
   font-size: 11px;
 
@@ -169,19 +103,19 @@ body {
 /* SECTION */
 
 .section {
-  margin-top: 30px;
-
-  padding-left: 20px;
+  margin-top: 32px;
 }
 
 .section h2 {
-  margin-bottom: 15px;
+  margin: 0 0 18px;
 
-  color: #1b4591;
+  color: #1B4591;
 
-  font-size: 42px;
+  font-size: 38px;
 
   font-family: 'Bowlby One SC', cursive;
+
+  line-height: 1;
 }
 
 /* HORIZONTAL SCROLL */
@@ -189,11 +123,11 @@ body {
 .horizontal-scroll {
   display: flex;
 
-  gap: 20px;
+  gap: 18px;
 
   overflow-x: auto;
 
-  padding-right: 20px;
+  padding-bottom: 6px;
 }
 
 .horizontal-scroll::-webkit-scrollbar {
@@ -203,43 +137,27 @@ body {
 /* CARD */
 
 .card {
-  min-width: 310px;
+  min-width: 290px;
 }
 
 .card img {
   width: 100%;
-  height: 220px;
+
+  height: 210px;
 
   object-fit: contain;
+
+  display: block;
 }
 
 .card h3 {
   margin-top: 10px;
 
-  color: #1b4591;
+  color: #1B4591;
 
-  font-size: 26px;
-
-  font-weight: 700;
-}
-
-/* BOTTOM NAV */
-
-.bottom-nav {
-  position: absolute;
-
-  bottom: 0;
-
-  width: 100%;
-  height: 95px;
-
-  background: #ffacce;
-
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-
-  color: #1b4591;
+  font-size: 24px;
 
   font-weight: 700;
+
+  line-height: 1.1;
 }

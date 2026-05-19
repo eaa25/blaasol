@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+import Header from "./Header";
+import NavBar from "./NavBar";
+
 import landingImg from "../images/first.png";
 
 import artist1 from "../images/anastasia.png";
@@ -57,7 +60,7 @@ function FestivalApp() {
 
   if (!started) {
     return (
-      <div className="phone-frame">
+      <div className="festival-page">
         <div className="landing" onClick={() => setStarted(true)}>
           <img
             src={landingImg}
@@ -70,21 +73,10 @@ function FestivalApp() {
   }
 
   return (
-    <div className="phone-frame">
-      <div className="app">
-        {/* TOPBAR */}
+    <div className="festival-page">
+      <Header />
 
-        <header className="topbar">
-          <button className="circle-btn">☰</button>
-
-          <div className="logo">
-            <h1>BLÅ SOL</h1>
-            <p>6. JUNI 2026</p>
-          </div>
-
-          <button className="circle-btn">👤</button>
-        </header>
-
+      <main className="festival-main">
         {/* COUNTDOWN */}
 
         <section className="countdown-box">
@@ -148,17 +140,9 @@ function FestivalApp() {
             </div>
           </div>
         </section>
+      </main>
 
-        {/* BOTTOM NAV */}
-
-        <nav className="bottom-nav">
-          <div>Start</div>
-          <div>Schedule</div>
-          <div>Map</div>
-          <div>Group</div>
-          <div>Menu</div>
-        </nav>
-      </div>
+      <NavBar />
     </div>
   );
 }
