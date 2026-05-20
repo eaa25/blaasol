@@ -32,7 +32,11 @@ export default function Header({ variant = "default", onBackClick }) {
             <img src={backArrowImg} alt="Back" className="header-back-icon" />
           </button>
         ) : (
-          <button className="header-btn header-ticket-btn" aria-label="Tickets">
+          <button
+            className="header-btn"
+            onClick={() => navigate("/404")}
+            aria-label="Tickets"
+          >
             <img src={ticketImg} alt="Tickets" className="header-icon" />
           </button>
         )}

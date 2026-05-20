@@ -1,0 +1,78 @@
+.notfound-page {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 48px 24px 40px;
+  box-sizing: border-box;
+
+  background: linear-gradient(
+    to bottom,
+    #f3f3f3 0%,
+    #d8eef8 45%,
+    #00a7ef 100%
+  );
+
+  overflow: hidden;
+}
+
+.notfound-title {
+  margin: 70px 0 28px;
+
+  font-family: "Bowlby One", sans-serif;
+  font-size: 5.4rem;
+  line-height: 0.9;
+
+  color: #214b9b;
+}
+
+.notfound-text {
+  margin: 0;
+
+  text-align: center;
+
+  font-size: 1.15rem;
+  line-height: 1.45;
+  color: #214b9b;
+}
+
+.notfound-bold {
+  margin: 8px 0 10px;
+
+  font-size: 1.45rem;
+  font-weight: 800;
+
+  color: #214b9b;
+}
+
+.notfound-text.bottom {
+  max-width: 290px;
+}
+
+.notfound-image {
+  width: 330px;
+  max-width: 90vw;
+
+  margin-top: 18px;
+}
+
+.notfound-btn {
+  margin-top: auto;
+
+  width: 210px;
+  height: 68px;
+
+  border: none;
+  border-radius: 12px;
+
+  background-color: #ef9bc3;
+
+  font-family: "Bowlby One", sans-serif;
+  font-size: 1.8rem;
+
+  color: white;
+
+  cursor: pointer;
+}

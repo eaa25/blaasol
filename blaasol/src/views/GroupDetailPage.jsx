@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────
-// GroupDetailPage — shows a single group's info
-// Opened when you tap a group in GroupsPage.
-// Contains three modes:
-//   1. Normal view — photo, name, action buttons, members list
-//   2. Edit mode   — change the group name and photo (UPDATE in CRUD)
-//   3. QR view     — shows the group's invite QR code
-// Tapping a member opens their FriendProfilePage (or your own profile if "You")
+// GroupDetailPage
+// Shows one group with:
+// - group image and name
+// - edit group name/image
+// - group actions: schedule, QR code, map, leave
+// - members list
+// - friend profile view when clicking a member
 // ─────────────────────────────────────────────
 
 import React, { useState, useRef, useEffect } from "react";
@@ -16,6 +16,11 @@ import programIcon from "../assets/program icon.png";
 import vectorIcon from "../assets/Vector.png";
 import mapIcon from "../assets/map icon.png";
 
+import img1 from "../assets/laura.jpeg";
+import img2 from "../assets/sofie.png";
+import img3 from "../assets/emma.png";
+import img4 from "../assets/cecilie.jpeg";
+
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import QRPage from "./QRPage";
@@ -23,12 +28,13 @@ import FriendProfilePage from "./FriendProfilePage";
 
 import "./GroupDetailPage.css";
 
+// Members shown in the group
 const members = [
   { id: 1, name: "You", avatar: ellapersona },
-  { id: 2, name: "Laura Dahl", avatar: null },
-  { id: 3, name: "Sofie Christensen", avatar: null },
-  { id: 4, name: "Emma Sørensen", avatar: null },
-  { id: 5, name: "Cecilie Winther", avatar: null },
+  { id: 2, name: "Laura Dahl", avatar: img1 },
+  { id: 3, name: "Sofie Christensen", avatar: img2 },
+  { id: 4, name: "Emma Sørensen", avatar: img3 },
+  { id: 5, name: "Cecilie Winther", avatar: img4 },
 ];
 
 export default function GroupDetailPage({
@@ -40,7 +46,6 @@ export default function GroupDetailPage({
 }) {
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] = useState("group");
   const [editing, setEditing] = useState(false);
   const [showQR, setShowQR] = useState(false);
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
@@ -51,12 +56,14 @@ export default function GroupDetailPage({
 
   const nameInputRef = useRef(null);
 
+  // Focus name input automatically in edit mode
   useEffect(() => {
     if (editing) {
       nameInputRef.current?.focus();
     }
   }, [editing]);
 
+  // Converts uploaded group image to previewable data URL
   function handleImageChange(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -66,11 +73,13 @@ export default function GroupDetailPage({
     reader.readAsDataURL(file);
   }
 
+  // Saves changed group name/image
   function handleDone() {
     onUpdate({ ...group, name: editName, avatar: editAvatar });
     setEditing(false);
   }
 
+  // Opens friend profile when clicking a member
   if (selectedMember) {
     return (
       <FriendProfilePage
@@ -81,10 +90,12 @@ export default function GroupDetailPage({
     );
   }
 
+  // Opens QR page
   if (showQR) {
     return <QRPage group={group} onBack={() => setShowQR(false)} />;
   }
 
+  // Edit group screen
   if (editing) {
     return (
       <div className="detail-page">
@@ -124,6 +135,7 @@ export default function GroupDetailPage({
     );
   }
 
+  // Main group detail screen
   return (
     <div className="detail-page">
       <Header variant="back" onBackClick={onBack} />
@@ -147,9 +159,14 @@ export default function GroupDetailPage({
         </button>
 
         <div className="detail-actions">
+          {/* Opens SchedulePage directly on GROUP SCHEDULE tab */}
           <button
             className="detail-action-btn"
-            onClick={() => navigate("/schedule")}
+            onClick={() =>
+              navigate("/group-schedule", {
+                state: { defaultTab: "group" },
+              })
+            }
           >
             <img
               src={programIcon}
@@ -208,6 +225,7 @@ export default function GroupDetailPage({
                 strokeLinecap="round"
               />
             </svg>
+
             <span>Leave</span>
           </button>
         </div>
@@ -224,11 +242,7 @@ export default function GroupDetailPage({
               }
             >
               <div className="detail-member-avatar">
-                {m.avatar ? (
-                  <img src={m.avatar} alt={m.name} />
-                ) : (
-                  <div className="detail-member-placeholder" />
-                )}
+                <img src={m.avatar} alt={m.name} />
               </div>
 
               <span className="detail-member-name">{m.name}</span>
@@ -241,11 +255,7 @@ export default function GroupDetailPage({
         </ul>
       </main>
 
-      <NavBar
-        active={activeTab}
-        onTabChange={setActiveTab}
-        onGroupClick={onBack}
-      />
+      <NavBar />
 
       {showLeaveConfirm && (
         <div

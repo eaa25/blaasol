@@ -58,7 +58,7 @@
 .friend-name {
   font-family: 'Bowlby One', system-ui, sans-serif;
   font-size: 22px;
-  font-weight: 400;
+  font-weight: 600;
   color: #1B4591;
   margin: 0;
 }
@@ -71,6 +71,8 @@
 }
 
 .friend-status-btn {
+  width: fit-content;
+  max-width: 140px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -83,9 +85,12 @@
   border-radius: 10px;
   padding: 10px 16px;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .friend-add-btn {
+  width: fit-content;
+  max-width: 140px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -98,6 +103,7 @@
   border-radius: 10px;
   padding: 10px 16px;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 /* ── Tabs ── */

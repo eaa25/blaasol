@@ -327,6 +327,15 @@
   flex-shrink: 0;
 }
 
+.friend-detail-profile-btn {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
 /* ANIMATIONS */
 
 @keyframes detailPanelIn {

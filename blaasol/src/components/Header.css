@@ -55,11 +55,6 @@
   cursor: pointer;
 }
 
-.header-ticket-btn {
-  pointer-events: none;
-  cursor: default;
-}
-
 .header-icon {
   width: 26px;
   height: 26px;

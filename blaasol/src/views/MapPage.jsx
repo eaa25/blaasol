@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/NavBar";
 import SendLocationPage from "./SendLocationPage";
+import FriendProfilePage from "./FriendProfilePage";
 
 import mapImg from "../assets/map.jpg";
 import lauraImg from "../assets/laura.jpeg";
@@ -12,6 +13,7 @@ import cecilieImg from "../assets/cecilie.jpeg";
 
 import "./MapPage.css";
 
+// Friends shown on the map and in the friends panel
 const friends = [
   { id: 1, name: "Laura Dahl", color: "#00B050", time: "now", location: "toilets – VIP area", avatar: lauraImg, x: 58, y: 16 },
   { id: 2, name: "Sofie Christensen", color: "#A12BCB", time: "now", location: "Byfesten", avatar: sofieImg, x: 30, y: 74 },
@@ -20,13 +22,24 @@ const friends = [
 ];
 
 export default function MapPage() {
+  // Controls if the bottom friends panel is open or collapsed
   const [panelOpen, setPanelOpen] = useState(true);
-  const [selectedFriend, setSelectedFriend] = useState(friends[0]);
+
+  // The friend currently selected on the map
   const [friendDetail, setFriendDetail] = useState(null);
+
+  // Opens the full FriendProfilePage when clicking avatar/name in the detail panel
+  const [selectedProfileFriend, setSelectedProfileFriend] = useState(null);
+
+  // Opens the SendLocationPage
   const [showSendLocation, setShowSendLocation] = useState(false);
+
+  // Stores the map zoom and position
   const [transform, setTransform] = useState({ scale: 1, x: 0, y: 0 });
 
   const mapRef = useRef(null);
+
+  // Stores mouse drag information while dragging the map
   const dragRef = useRef({
     isDragging: false,
     startX: 0,
@@ -35,6 +48,7 @@ export default function MapPage() {
     startMapY: 0,
   });
 
+  // Resets zoom and closes friend detail panel
   function resetMapView() {
     setTransform({ scale: 1, x: 0, y: 0 });
     setFriendDetail(null);
@@ -44,13 +58,12 @@ export default function MapPage() {
     console.log("Open popup later");
   }
 
+  // Opens the detail panel for a friend
   function openFriendDetail(friend) {
-    if (friend.name !== "Laura Dahl") return;
-
-    setSelectedFriend(friend);
     setFriendDetail(friend);
     setPanelOpen(false);
 
+    // Zooms in slightly when a friend is selected
     setTransform({
       scale: 2.4,
       x: -330,
@@ -58,27 +71,29 @@ export default function MapPage() {
     });
   }
 
+  // Closes the friend detail panel and resets the map
   function closeFriendDetail() {
     setFriendDetail(null);
     setTransform({ scale: 1, x: 0, y: 0 });
   }
 
-  // Block browser scroll/bounce on the whole page while map is mounted.
-  // Allow scrolling only inside the friends list.
+  // Prevents the whole app from bouncing/scrolling while using the map
   useEffect(() => {
     function blockScroll(e) {
       if (e.target.closest(".friends-list")) return;
       e.preventDefault();
     }
+
     document.addEventListener("touchmove", blockScroll, { passive: false });
+
     return () => document.removeEventListener("touchmove", blockScroll);
   }, []);
 
+  // Handles touch zoom, pinch, and wheel zoom
   useEffect(() => {
     const el = mapRef.current;
     if (!el) return;
 
-    // Cloned touch arrays so we can compare previous vs current positions
     let lastTouches = null;
 
     function dist(t1, t2) {
@@ -88,7 +103,10 @@ export default function MapPage() {
     }
 
     function mid(t1, t2) {
-      return { x: (t1.clientX + t2.clientX) / 2, y: (t1.clientY + t2.clientY) / 2 };
+      return {
+        x: (t1.clientX + t2.clientX) / 2,
+        y: (t1.clientY + t2.clientY) / 2,
+      };
     }
 
     function handleTouchStart(e) {
@@ -102,16 +120,19 @@ export default function MapPage() {
 
       const touches = Array.from(e.touches);
 
+      // One finger = drag map, only when zoomed in
       if (touches.length === 1 && lastTouches.length === 1) {
-        // Single-finger pan — only when zoomed in
         const dx = touches[0].clientX - lastTouches[0].clientX;
         const dy = touches[0].clientY - lastTouches[0].clientY;
+
         setTransform((prev) => {
           if (prev.scale <= 1) return prev;
           return { ...prev, x: prev.x + dx, y: prev.y + dy };
         });
+      }
 
-      } else if (touches.length === 2) {
+      // Two fingers = pinch zoom
+      if (touches.length === 2) {
         const rect = el.getBoundingClientRect();
         const newMid = mid(touches[0], touches[1]);
         const newDist = dist(touches[0], touches[1]);
@@ -125,17 +146,19 @@ export default function MapPage() {
             const prevMid = mid(lastTouches[0], lastTouches[1]);
             const prevDist = dist(lastTouches[0], lastTouches[1]);
 
-            // Scale pivoted at pinch midpoint
             const zoomFactor = prevDist > 0 ? newDist / prevDist : 1;
             nextScale = Math.min(Math.max(prev.scale * zoomFactor, 0.5), 6);
+
             const scaleChange = nextScale / prev.scale;
             const mx = newMid.x - rect.left;
             const my = newMid.y - rect.top;
+
             nextX = mx - (mx - prev.x) * scaleChange + (newMid.x - prevMid.x);
             nextY = my - (my - prev.y) * scaleChange + (newMid.y - prevMid.y);
           }
 
           if (nextScale <= 1) return { scale: 1, x: 0, y: 0 };
+
           return { scale: nextScale, x: nextX, y: nextY };
         });
       }
@@ -148,6 +171,7 @@ export default function MapPage() {
       lastTouches = Array.from(e.touches);
     }
 
+    // Mouse wheel zoom on desktop
     function handleWheel(e) {
       e.preventDefault();
 
@@ -185,6 +209,7 @@ export default function MapPage() {
     };
   }, []);
 
+  // Starts desktop dragging
   function handleMouseDown(e) {
     if (transform.scale <= 1) return;
 
@@ -197,6 +222,7 @@ export default function MapPage() {
     };
   }
 
+  // Moves map while dragging
   function handleMouseMove(e) {
     if (!dragRef.current.isDragging) return;
 
@@ -210,10 +236,22 @@ export default function MapPage() {
     }));
   }
 
+  // Stops desktop dragging
   function handleMouseUp() {
     dragRef.current.isDragging = false;
   }
 
+  // Shows FriendProfilePage when avatar/name was clicked
+  if (selectedProfileFriend) {
+    return (
+      <FriendProfilePage
+        friend={selectedProfileFriend}
+        onBack={() => setSelectedProfileFriend(null)}
+      />
+    );
+  }
+
+  // Shows SendLocationPage when Send My Location is clicked
   if (showSendLocation) {
     return <SendLocationPage onBack={() => setShowSendLocation(false)} />;
   }
@@ -237,8 +275,14 @@ export default function MapPage() {
               transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`,
             }}
           >
-            <img src={mapImg} alt="Festival map" className="map-image" draggable="false" />
+            <img
+              src={mapImg}
+              alt="Festival map"
+              className="map-image"
+              draggable="false"
+            />
 
+            {/* Friend pins on the map */}
             {friends.map((friend) => (
               <button
                 key={friend.id}
@@ -256,6 +300,7 @@ export default function MapPage() {
           </div>
         </div>
 
+        {/* Left-side map buttons */}
         <div className="map-controls">
           <button className="map-round-btn" onClick={openPopup}>
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -272,6 +317,7 @@ export default function MapPage() {
           </button>
         </div>
 
+        {/* Friend detail panel after clicking a pin or row */}
         {friendDetail && (
           <section className="friend-detail-panel">
             <button className="friend-detail-close" onClick={closeFriendDetail}>
@@ -281,7 +327,11 @@ export default function MapPage() {
               </svg>
             </button>
 
-            <div className="friend-detail-top">
+            {/* Clicking avatar/name opens FriendProfilePage */}
+            <button
+              className="friend-detail-top friend-detail-profile-btn"
+              onClick={() => setSelectedProfileFriend(friendDetail)}
+            >
               <img
                 src={friendDetail.avatar}
                 alt={friendDetail.name}
@@ -291,9 +341,9 @@ export default function MapPage() {
 
               <div className="friend-detail-info">
                 <h2 style={{ color: friendDetail.color }}>
-                  LAURA
+                  {friendDetail.name.split(" ")[0].toUpperCase()}
                   <br />
-                  DAHL
+                  {friendDetail.name.split(" ").slice(1).join(" ").toUpperCase()}
                 </h2>
 
                 <p>
@@ -301,10 +351,13 @@ export default function MapPage() {
                   <strong>{friendDetail.location}</strong>
                 </p>
               </div>
-            </div>
+            </button>
 
             <div className="friend-detail-actions">
-              <button className="friend-action-card" onClick={() => setShowSendLocation(true)}>
+              <button
+                className="friend-action-card"
+                onClick={() => setShowSendLocation(true)}
+              >
                 <span>
                   SEND MY
                   <br />
@@ -344,6 +397,7 @@ export default function MapPage() {
           </section>
         )}
 
+        {/* Bottom friends panel */}
         {!friendDetail && (
           <section className={`friends-panel ${panelOpen ? "open" : "closed"}`}>
             <div className="panel-top">
@@ -361,7 +415,10 @@ export default function MapPage() {
                 </svg>
               </button>
 
-              <button className="panel-toggle-btn" onClick={() => setPanelOpen(!panelOpen)}>
+              <button
+                className="panel-toggle-btn"
+                onClick={() => setPanelOpen(!panelOpen)}
+              >
                 {panelOpen ? (
                   <svg className="panel-close-icon" width="26" height="26" viewBox="0 0 26 26" fill="none">
                     <path d="M6 6L20 20" stroke="white" strokeWidth="4" strokeLinecap="round" />
@@ -384,7 +441,11 @@ export default function MapPage() {
             {panelOpen && (
               <div className="friends-list">
                 {friends.map((friend) => (
-                  <button key={friend.id} className="friend-row" onClick={() => openFriendDetail(friend)}>
+                  <button
+                    key={friend.id}
+                    className="friend-row"
+                    onClick={() => openFriendDetail(friend)}
+                  >
                     <img
                       src={friend.avatar}
                       alt={friend.name}
@@ -393,7 +454,10 @@ export default function MapPage() {
                     />
 
                     <div className="friend-info">
-                      <span className="friend-name" style={{ color: friend.color }}>
+                      <span
+                        className="friend-name"
+                        style={{ color: friend.color }}
+                      >
                         {friend.name}
                       </span>
 
@@ -410,7 +474,7 @@ export default function MapPage() {
         )}
       </main>
 
-      <Footer active="map" />
+      <Footer />
     </div>
   );
 }

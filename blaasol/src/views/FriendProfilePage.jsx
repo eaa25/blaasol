@@ -13,9 +13,16 @@
 // ─────────────────────────────────────────────
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
+
+import img1 from "../assets/emma.png";
+import img2 from "../assets/sofie.png"; 
+import img3 from "../assets/andreas.png";
+import img4 from "../assets/frederik.png";
+import img5 from "../assets/cecilie.jpeg";
 
 import "./FriendProfilePage.css";
 import "./GroupDetailPage.css";
@@ -103,6 +110,7 @@ export default function FriendProfilePage({
   onGroupClick,
 }) {
   const [activeTab, setActiveTab] = useState("group");
+  const navigate = useNavigate();
 
   const [activeSection, setActiveSection] = useState("friends");
   // "friends" or "artists" tab
@@ -118,11 +126,11 @@ export default function FriendProfilePage({
 
   // This friend's own friends list (hardcoded for now)
   const friendsList = [
-    { id: 1, name: "Emma Sørensen", avatar: null },
-    { id: 2, name: "Sofie Christensen", avatar: null },
-    { id: 3, name: "Andreas Nielsen", avatar: null },
-    { id: 4, name: "Frederik Larsen", avatar: null },
-    { id: 5, name: "Cecilie Winther", avatar: null },
+    { id: 1, name: "Emma Sørensen", avatar: img1 },
+    { id: 2, name: "Sofie Christensen", avatar: img2 },
+    { id: 3, name: "Andreas Nielsen", avatar: img3 },
+    { id: 4, name: "Frederik Larsen", avatar: img4 },
+    { id: 5, name: "Cecilie Winther", avatar: img5 },
   ];
 
   // Called after the user confirms removing the friend
@@ -375,7 +383,13 @@ export default function FriendProfilePage({
 
             {/* SEE LOCATION */}
 
-            <button className="unfriend-action-btn">
+            <button
+              className="unfriend-action-btn"
+              onClick={() => {
+                setShowPopup(false);
+                navigate("/map");
+              }}
+            >
               <span>SEE LOCATION</span>
 
               <LocationIcon />
