@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/NavBar";
 import SendLocationPage from "./SendLocationPage";
 import FriendProfilePage from "./FriendProfilePage";
+import InviteMeetPage from "./InviteMeetPage";
 
 import mapImg from "../assets/map.jpg";
 import lauraImg from "../assets/laura.jpeg";
@@ -38,6 +39,9 @@ export default function MapPage() {
   const [transform, setTransform] = useState({ scale: 1, x: 0, y: 0 });
 
   const mapRef = useRef(null);
+
+  // Opens the InviteMeetPage
+  const [showInviteMeet, setShowInviteMeet] = useState(false);
 
   // Stores mouse drag information while dragging the map
   const dragRef = useRef({
@@ -256,6 +260,17 @@ export default function MapPage() {
     return <SendLocationPage onBack={() => setShowSendLocation(false)} />;
   }
 
+  // Shows InviteMeetPage when Invite to Meet is clicked
+  if (showInviteMeet) {
+    return (
+  <InviteMeetPage
+    onBack={() => setShowInviteMeet(false)}
+    friends={friends}
+    invitedFriend={friendDetail}
+  />
+);
+  }
+
   return (
     <div className="map-page">
       <Header />
@@ -375,7 +390,11 @@ export default function MapPage() {
                 </svg>
               </button>
 
-              <button className="friend-action-card">
+
+              <button
+                className="friend-action-card"
+                onClick={() => setShowInviteMeet(true)}
+              >
                 <span>
                   INVITE TO
                   <br />

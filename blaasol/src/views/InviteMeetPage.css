@@ -1,0 +1,339 @@
+.invite-page {
+  height: 100vh;
+  background: #e5f0f3;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.invite-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px 0 80px;
+  text-align: center;
+}
+
+.invite-content h1 {
+  margin: 0;
+  font-family: "Bowlby One", sans-serif;
+  font-size: 34px;
+  line-height: 1.22;
+  color: #1b4591;
+  letter-spacing: 1px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.invite-intro {
+  width: 310px;
+  margin: 18px auto 18px;
+  font-size: 20px;
+  line-height: 1.35;
+  color: #1b4591;
+}
+
+.invite-content h2 {
+  margin: 28px 0 20px;
+  font-size: 26px;
+  font-weight: 800;
+  color: #1b4591;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* WHERE PAGE */
+
+.invite-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  padding-bottom: 40px;
+  padding-left: 18px;
+  padding-right: 0;
+}
+
+.category-row {
+  width: calc(100vw - 18px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow: visible;
+}
+
+.category-btn,
+.option-btn {
+  flex: 0 0 auto;
+  height: 48px;
+  border-radius: 5px;
+  padding: 0 14px;
+  font-family: "Bowlby One", sans-serif;
+  font-size: 15px;
+  color: white;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.option-scroll {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.option-btn {
+  border: 3px solid currentColor;
+  background: transparent;
+}
+
+/* WHEN PAGE - QUICK TIMES */
+
+.quick-time-list {
+  width: 280px;
+  margin: 64px auto 0;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px 22px;
+  justify-items: center;
+  justify-content: center;
+}
+
+.quick-time-btn,
+.set-time-btn {
+  height: 56px;
+  min-width: 118px;
+  border-radius: 5px;
+  padding: 0 16px;
+  font-family: "Bowlby One", sans-serif;
+  font-size: 20px;
+  color: white;
+  background: #009fdc;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+.quick-time-btn.selected {
+  background: #1b4591;
+}
+
+.set-time-btn {
+  grid-column: 1 / -1;
+  justify-self: center;
+  margin-top: 44px;
+  min-width: 150px;
+  background: #1b4591;
+  text-transform: uppercase;
+}
+
+/* WHEN PAGE - CUSTOM TIME PICKER */
+
+.time-picker {
+  width: calc(100% - 48px);
+  max-width: 360px;
+  height: 210px;
+  margin: 62px auto 74px;
+  display: grid;
+  grid-template-columns: 1fr 28px 1fr 1fr;
+  align-items: center;
+}
+
+.picker-column {
+  height: 210px;
+  display: grid;
+  grid-template-rows: 70px 70px 70px;
+  align-items: center;
+}
+
+.picker-value {
+  font-size: 34px;
+  font-weight: 800;
+  color: #009fdc;
+}
+
+.picker-value.active {
+  color: #1b4591;
+  border-top: 1px solid rgba(27, 69, 145, 0.45);
+  border-bottom: 1px solid rgba(27, 69, 145, 0.45);
+  height: 70px;
+}
+
+.picker-value.faded {
+  color: #009fdc;
+}
+
+.picker-colon {
+  font-size: 34px;
+  font-weight: 800;
+  color: #1b4591;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.period-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+  align-items: center;
+}
+
+.period-btn {
+  font-size: 34px;
+  font-weight: 800;
+  color: #009fdc;
+}
+
+.period-btn.active {
+  color: #1b4591;
+}
+
+/* CANCEL / SAVE */
+
+.time-actions {
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  padding: 0 24px 40px;
+}
+
+.cancel-time-btn,
+.save-time-btn {
+  height: 54px;
+  border-radius: 5px;
+  padding: 0 26px;
+  font-family: "Bowlby One", sans-serif;
+  font-size: 20px;
+  color: #1b4591;
+  border: 3px solid #1b4591;
+  background: transparent;
+}
+
+.save-time-btn {
+  background: #1b4591;
+  color: white;
+}
+
+.who-grid {
+  width: 100%;
+  max-width: 380px;
+  margin: 44px auto 38px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 34px 26px;
+  justify-items: center;
+}
+
+.who-friend-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: #1b4591;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.who-avatar {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 7px solid transparent;
+}
+
+.invite-final-btn {
+  height: 58px;
+  border-radius: 5px;
+  padding: 0 34px;
+  font-family: "Bowlby One", sans-serif;
+  font-size: 24px;
+  color: white;
+  background: #1b4591;
+}
+
+/* CONFIRMATION POPUP */
+.location-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.35);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+.popup-fade-out {
+  opacity: 0;
+}
+
+.location-popup {
+  width: min(88vw, 620px);
+  min-height: 430px;
+
+  background: #eaf7fa;
+  border-radius: 28px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 70px;
+  padding: 60px 28px;
+
+  animation: popupScale 0.3s ease;
+}
+
+@keyframes popupScale {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.location-check-circle {
+  width: 175px;
+  height: 175px;
+
+  border: 14px solid #07a5df;
+  border-radius: 50%;
+
+  color: #07a5df;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.location-check-circle svg {
+  width: 105px;
+  height: 105px;
+}
+
+.location-popup h2 {
+  margin: 0;
+
+  font-family: "Bowlby One", sans-serif;
+  font-size: clamp(28px, 5vw, 50px);
+
+  color: #19499a;
+
+  text-align: center;
+  letter-spacing: 1px;
+}
