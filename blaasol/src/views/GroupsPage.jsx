@@ -1,20 +1,16 @@
-// ─────────────────────────────────────────────
-// GroupsPage — main screen showing all your groups
-// This is the home base of the app. From here the user can:
-//   - View all groups they belong to
-//   - Open a group to see its details
-//   - Create a new group or join an existing one via the + button
-//   - Open their profile via the account icon in the header
-// ─────────────────────────────────────────────
+// Groups list page — the main groups screen.
+// Shows all groups the user belongs to. Tapping a group opens GroupDetailPage.
+// The "+" button opens a popup to create a new group or join one by code.
+// Group list is persisted in localStorage so it survives page refreshes.
 
-import { useState } from "react";
-import Header from "../components/Header";
-import NavBar from "../components/NavBar";
+import { useState, useEffect } from "react";
+import Header          from "../components/Header";
+import NavBar          from "../components/NavBar";
 import GroupDetailPage from "./GroupDetailPage";
-import JoinGroupPage from "./JoinGroupPage";
+import JoinGroupPage   from "./JoinGroupPage";
 import CreateGroupPage from "./CreateGroupPage";
-import ProfilePage from "./ProfilePage";
-import SchedulePage from "./Schedule";
+import ProfilePage     from "./ProfilePage";
+
 import img1 from "../assets/groupimg/bass&besties.png";
 import img2 from "../assets/groupimg/bluecrew.png";
 import img3 from "../assets/groupimg/lastones.png";
@@ -22,91 +18,85 @@ import img4 from "../assets/groupimg/blaabuddies.png";
 import img5 from "../assets/groupimg/miccheckcrew.png";
 import img6 from "../assets/groupimg/beerpressure.png";
 import img7 from "../assets/groupimg/sunburnsociety.png";
+
 import "./GroupsPage.css";
 
-// Starting list of groups — each has an id, name, avatar image, and optional invite code
+const GROUPS_KEY = "blaasol_groups";
+
+// Default groups shown on first launch
 const groups = [
-  { id: 1, name: "Bass & Besties",     avatar: img1, inviteCode: "BB345" },
-  { id: 2, name: "Blue Crew",           avatar: img2, inviteCode: "BLUE123" },
-  { id: 3, name: "Last Ones Standing",  avatar: img3, inviteCode: "LAST123" },
-  { id: 4, name: "Blå Buddies",         avatar: img4, inviteCode: "BLA123" },
-  { id: 5, name: "Mic Check Crew",      avatar: img5, inviteCode: "MIC123" },
-  { id: 6, name: "Beer Pressure",       avatar: img6, inviteCode: "BEER789" },
-  { id: 7, name: "Sunburn Society",     avatar: img7, inviteCode: "SUN123" },
+  { id: 1, name: "Bass & Besties",    avatar: img1, inviteCode: "BB345"   },
+  { id: 2, name: "Blue Crew",          avatar: img2, inviteCode: "BLUE123" },
+  { id: 3, name: "Last Ones Standing", avatar: img3, inviteCode: "LAST123" },
+  { id: 4, name: "Blå Buddies",        avatar: img4, inviteCode: "BLA123"  },
+  { id: 5, name: "Mic Check Crew",     avatar: img5, inviteCode: "MIC123"  },
+  { id: 6, name: "Beer Pressure",      avatar: img6, inviteCode: "BEER789" },
+  { id: 7, name: "Sunburn Society",    avatar: img7, inviteCode: "SUN123"  },
 ];
 
-export default function GroupsPage() {
-  // Which nav tab is active (used by NavBar highlight)
-  const [activeTab, setActiveTab]     = useState("group");
-  // Controls the + popup (create / join options)
-  const [showPopup, setShowPopup]     = useState(false);
-  // The group the user has tapped into — opens GroupDetailPage
-  const [selectedGroup, setSelectedGroup] = useState(null);
-  // Controls which full-page view to show
-  const [showJoin, setShowJoin]       = useState(false);
-  const [showCreate, setShowCreate]   = useState(false);
-  const [showProfile, setShowProfile]     = useState(false);
-  const [profileFromMenu, setProfileFromMenu] = useState(false); // true = profile was opened via menu
-  const [showMenu, setShowMenu]           = useState(false);
-  // Live list of groups — updated when user creates, edits or leaves a group
-  const [groupList, setGroupList]     = useState(groups);
+// Loads saved group list from localStorage, falls back to the default list
+function loadGroups() {
+  try {
+    const raw = localStorage.getItem(GROUPS_KEY);
+    return raw ? JSON.parse(raw) : groups;
+  } catch {
+    return groups;
+  }
+}
 
-  // UPDATE: saves edited name and avatar back into the list
+export default function GroupsPage() {
+  const [showPopup, setShowPopup]         = useState(false);     // "+" popup visible
+  const [selectedGroup, setSelectedGroup] = useState(null);      // group to open in detail view
+  const [showJoin, setShowJoin]           = useState(false);     // JoinGroupPage visible
+  const [showCreate, setShowCreate]       = useState(false);     // CreateGroupPage visible
+  const [showProfile, setShowProfile]     = useState(false);     // ProfilePage visible (from group member tap)
+  const [groupList, setGroupList]         = useState(loadGroups); // live group list
+
+  // Persist any change to the group list immediately
+  useEffect(() => {
+    localStorage.setItem(GROUPS_KEY, JSON.stringify(groupList));
+  }, [groupList]);
+
+  // Called after editing a group's name or image
   function handleUpdateGroup(updated) {
     setGroupList(prev => prev.map(g => g.id === updated.id ? updated : g));
     setSelectedGroup(updated);
   }
 
-  // CREATE: adds a new group to the list with a generated id
+  // Called after the user creates a brand-new group
   function handleCreateGroup({ name, avatar }) {
     const newGroup = { id: Date.now(), name, avatar, inviteCode: null };
     setGroupList(prev => [...prev, newGroup]);
     setShowCreate(false);
   }
 
-  // DELETE (Leave): removes the group from the list and goes back to this screen
+  // Called after the user leaves a group — removes it from the list
   function handleLeaveGroup(id) {
     setGroupList(prev => prev.filter(g => g.id !== id));
     setSelectedGroup(null);
   }
 
-  // JOIN: looks up invite code in current list, then falls back to the original groups
-  // so the user can rejoin a group they previously left
+  // Checks the entered invite code against current + original groups so
+  // the user can rejoin a group they previously left
   function handleJoinByCode(code) {
     const upper = code.toUpperCase();
     let match = groupList.find(g => g.inviteCode === upper);
     if (!match) {
-      // check original groups in case the user previously left it
       match = groups.find(g => g.inviteCode === upper);
-      if (match) {
-        setGroupList(prev => [...prev, match]);
-      }
+      if (match) setGroupList(prev => [...prev, match]);
     }
     if (match) {
       setShowJoin(false);
       setSelectedGroup(match);
       return true;
     }
-    return false; // wrong code — JoinGroupPage shows an error
+    return false; // wrong code — JoinGroupPage will show an error
   }
 
-  // ── Page routing — show the right screen based on state ──
-  if (showProfile) {
-    return <ProfilePage
-      onBack={() => {
-        setShowProfile(false);
-        if (profileFromMenu) { setProfileFromMenu(false); setShowMenu(true); }
-      }}
-    />;
-  }
-
-  if (showCreate) {
-    return <CreateGroupPage onBack={() => setShowCreate(false)} onCreate={handleCreateGroup} />;
-  }
-
-  if (showJoin) {
-    return <JoinGroupPage onBack={() => setShowJoin(false)} onJoin={handleJoinByCode} />;
-  }
+  // Sub-page routing based on state
+  if (showProfile)  return <ProfilePage onBack={() => setShowProfile(false)} />;
+  if (showCreate)   return <CreateGroupPage onBack={() => setShowCreate(false)} onCreate={handleCreateGroup} />;
+  if (showJoin)     return <JoinGroupPage   onBack={() => setShowJoin(false)}   onJoin={handleJoinByCode} />;
 
   if (selectedGroup) {
     return (
@@ -115,21 +105,19 @@ export default function GroupsPage() {
         onBack={() => setSelectedGroup(null)}
         onUpdate={handleUpdateGroup}
         onLeave={handleLeaveGroup}
-        onProfileClick={() => { setProfileFromMenu(false); setShowProfile(true); }}
+        onProfileClick={() => setShowProfile(true)}
       />
     );
   }
 
-  // ── Main groups list screen ──
   return (
     <div className="groups-page">
-      {/* Header — account icon opens profile */}
-      <Header onTicketsClick={() => {}} onProfileClick={() => { setProfileFromMenu(false); setShowProfile(true); }} />
+      <Header />
 
       <main className="groups-main">
         <div className="groups-heading">
           <h1 className="groups-title">YOUR GROUPS</h1>
-          {/* + button opens the create/join popup */}
+          {/* "+" opens the create / join popup */}
           <button className="add-btn" aria-label="Add group" onClick={() => setShowPopup(true)}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <path d="M12 5v14M5 12h14" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
@@ -137,7 +125,7 @@ export default function GroupsPage() {
           </button>
         </div>
 
-        {/* List of groups — tapping one opens GroupDetailPage */}
+        {/* Tap a group to open its detail page */}
         <ul className="groups-list">
           {groupList.map((group, i) => (
             <li key={group.id} className="group-item" onClick={() => setSelectedGroup(group)}>
@@ -145,27 +133,26 @@ export default function GroupsPage() {
                 <img src={group.avatar} alt={group.name} />
               </div>
               <span className="group-name">{group.name}</span>
+              {/* Divider between rows — not after the last item */}
               {i < groups.length - 1 && <div className="group-divider" />}
             </li>
           ))}
         </ul>
       </main>
 
-      <NavBar
-        active={activeTab}
-        onTabChange={setActiveTab}
-        onMenuClick={() => setShowMenu(true)}
-      />
+      <NavBar active="group" />
 
-      {/* ── Popup: shown when + is pressed ── */}
+      {/* Create / join popup */}
       {showPopup && (
         <div className="popup-overlay" onClick={() => setShowPopup(false)}>
           <div className="popup-card" onClick={e => e.stopPropagation()}>
             <button className="popup-close" onClick={() => setShowPopup(false)}>✕</button>
-            {/* CREATE: opens a form to enter group name, invite code and pick avatar */}
-            <button className="popup-btn" onClick={() => { setShowPopup(false); setShowCreate(true); }}>CREATE A NEW GROUP</button>
-            {/* JOIN: opens a page to scan QR or enter an invite code */}
-            <button className="popup-btn" onClick={() => { setShowPopup(false); setShowJoin(true); }}>JOIN AN EXISTING GROUP</button>
+            <button className="popup-btn" onClick={() => { setShowPopup(false); setShowCreate(true); }}>
+              CREATE A NEW GROUP
+            </button>
+            <button className="popup-btn" onClick={() => { setShowPopup(false); setShowJoin(true); }}>
+              JOIN AN EXISTING GROUP
+            </button>
           </div>
         </div>
       )}

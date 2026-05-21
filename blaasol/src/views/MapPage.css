@@ -107,6 +107,8 @@
   padding: 18px;
   z-index: 6;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   font-family: 'Poppins', system-ui, sans-serif;
   transition:
     opacity 0.28s ease,
@@ -181,9 +183,11 @@
 .friends-list {
   margin-top: 2px;
   overflow-y: auto;
-  max-height: 360px;
+  flex: 1;
+  min-height: 0;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  padding-bottom: 8px;
 }
 
 .friends-list::-webkit-scrollbar {
@@ -275,10 +279,15 @@
 .friend-detail-avatar {
   width: 145px;
   height: 145px;
+  flex-shrink: 0;
   border-radius: 50%;
   border: 7px solid;
   object-fit: cover;
   object-position: center top;
+}
+
+.friend-detail-info {
+  min-width: 0;
 }
 
 .friend-detail-info h2 {
@@ -287,6 +296,9 @@
   font-size: 34px;
   line-height: 1.35;
   font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .friend-detail-info p {

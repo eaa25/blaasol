@@ -1,14 +1,7 @@
-// ─────────────────────────────────────────────
-// Schedule.jsx
-//
-// Personal festival schedule page.
-//
-// Features:
-// - Like / unlike artists
-// - Liked artists automatically appear
-//   in ProfilePage → Artists tab
-// - Switch to GroupSchedule page
-// ─────────────────────────────────────────────
+// Personal schedule page.
+// Lists all festival acts. The user can like/unlike each artist with the
+// heart button — liked artists also appear in the Artists tab on ProfilePage.
+// A toggle at the top switches to GroupSchedule.
 
 import { useNavigate } from "react-router-dom";
 
@@ -16,19 +9,11 @@ import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 
 import { ACTS } from "../actsData";
-
-// Shared liked artists hook
-// Used both here and in ProfilePage
 import { useLikedArtists } from "../useLikedArtists";
 
 import "./Schedule.css";
 
-// ─────────────────────────────────────────────
-// HeartIcon
-//
-// Filled = liked
-// Empty = not liked
-// ─────────────────────────────────────────────
+// Heart button icon — filled when liked, outline when not
 function HeartIcon({ filled }) {
   return filled ? (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
@@ -45,113 +30,39 @@ function HeartIcon({ filled }) {
   );
 }
 
-// ─────────────────────────────────────────────
-// Main page component
-// ─────────────────────────────────────────────
-export default function Schedule({
-  onProfileClick,
-}) {
-
-  // Used to navigate to GroupSchedule page
+export default function Schedule() {
   const navigate = useNavigate();
 
-  // Shared liked artists state
-  // This is the SAME data used by ProfilePage
+  // Shared liked-artists state — stored in localStorage so ProfilePage stays in sync
   const [likedArtists, setLikedArtists] = useLikedArtists();
-
-  // ───────────────────────────────────────────
-  // Toggles artist like/unlike
-  //
-  // If artist already liked → remove it
-  // If artist not liked → add it
-  //
-  // Changes automatically appear in ProfilePage
-  // because both pages use useLikedArtists()
-  // ───────────────────────────────────────────
-  function toggleLike(id) {
-
-    setLikedArtists((prev) => {
-
-      const updated = new Set(prev);
-
-      if (updated.has(id)) {
-        updated.delete(id);
-      } else {
-        updated.add(id);
-      }
-
-      return updated;
-    });
-  }
 
   return (
     <div className="schedule-page">
+      <Header />
 
-      {/* Top header */}
-      <Header onProfileClick={onProfileClick} />
-
-      {/* ───────────────────────────────────── */}
-      {/* Schedule toggle buttons              */}
-      {/* ───────────────────────────────────── */}
+      {/* MY SCHEDULE / GROUP SCHEDULE toggle */}
       <div className="schedule-tabs">
-
-        {/* Current active page */}
-        <button className="schedule-tab active">
-          MY SCHEDULE
-        </button>
-
-        {/* Opens GroupSchedule page */}
-        <button
-          className="schedule-tab"
-          onClick={() => navigate("/group-schedule")}
-        >
+        <button className="schedule-tab active">MY SCHEDULE</button>
+        <button className="schedule-tab" onClick={() => navigate("/group-schedule")}>
           GROUP SCHEDULE
         </button>
       </div>
 
-      {/* ───────────────────────────────────── */}
-      {/* Festival acts list                   */}
-      {/* ───────────────────────────────────── */}
+      {/* One row per festival act */}
       <main className="schedule-list">
-
         {ACTS.map((act) => {
-
-          // Checks if this artist is liked
           const liked = likedArtists.has(act.id);
-
           return (
             <div key={act.id} className="act-row">
-
-              {/* Time */}
-              <span className="act-time">
-                {act.time}
-              </span>
-
-              {/* Artist image */}
-              <img
-                src={act.img}
-                alt={act.name}
-                className="act-img"
-              />
-
-              {/* Artist information */}
+              <span className="act-time">{act.time}</span>
+              <img src={act.img} alt={act.name} className="act-img" />
               <div className="act-info">
-
-                <span className="act-name">
-                  {act.name}
-                </span>
-
-                <span className="act-venue">
-                  {act.venue}
-                </span>
+                <span className="act-name">{act.name}</span>
+                <span className="act-venue">{act.venue}</span>
               </div>
-
-              {/* ───────────────────────────── */}
-              {/* Like button                   */}
-              {/* ───────────────────────────── */}
               <button
                 className={`act-heart-btn${liked ? " liked" : ""}`}
-                onClick={() => toggleLike(act.id)}
+                onClick={() => setLikedArtists(act.id)}
                 aria-label={liked ? "Unlike" : "Like"}
               >
                 <HeartIcon filled={liked} />
@@ -161,7 +72,6 @@ export default function Schedule({
         })}
       </main>
 
-      {/* Bottom navbar */}
       <NavBar />
     </div>
   );

@@ -1,11 +1,7 @@
-// ─────────────────────────────────────────────
-// MenuPage — app menu with links to key sections
-// Opened when the Menu button in the nav bar is pressed.
-// "Account" leads to the user's profile page.
+// App menu page — reachable via the Menu tab in the bottom nav.
+// Lists site-wide links. "Account" navigates to the user's profile.
 // Other items are placeholders for future features.
-// ─────────────────────────────────────────────
 
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import NavBar from "../components/NavBar";
@@ -26,20 +22,20 @@ function ArrowIcon() {
 }
 
 const menuItems = [
-  { id: "account", label: "Account" },
-  { id: "tickets", label: "Buy tickets" },
-  { id: "volunteer", label: "Become a volunteer" },
-  { id: "faq", label: "FAQ" },
-  { id: "founders", label: "Founders" },
+  { id: "account",   label: "Account"            },
+  { id: "tickets",   label: "Buy tickets"         },
+  { id: "volunteer", label: "Become a volunteer"  },
+  { id: "faq",       label: "FAQ"                 },
+  { id: "founders",  label: "Founders"            },
 ];
 
-export default function MenuPage({ onGroupClick }) {
-  const [activeTab, setActiveTab] = useState("menu");
+export default function MenuPage() {
   const navigate = useNavigate();
 
   function handleItemPress(id) {
     if (id === "account") {
-      navigate("/profile");
+      // Pass the current tab so the NavBar stays highlighted correctly on ProfilePage
+      navigate("/profile", { state: { activeTab: "menu" } });
     }
   }
 
@@ -53,25 +49,17 @@ export default function MenuPage({ onGroupClick }) {
         <ul className="menu-list">
           {menuItems.map((item, i) => (
             <li key={item.id}>
-              <button
-                className="menu-item"
-                onClick={() => handleItemPress(item.id)}
-              >
+              <button className="menu-item" onClick={() => handleItemPress(item.id)}>
                 <span className="menu-item-label">{item.label}</span>
                 <ArrowIcon />
               </button>
-
               {i < menuItems.length - 1 && <div className="menu-divider" />}
             </li>
           ))}
         </ul>
       </main>
 
-      <NavBar
-        active={activeTab}
-        onTabChange={setActiveTab}
-        onGroupClick={onGroupClick}
-      />
+      <NavBar active="menu" />
     </div>
   );
 }

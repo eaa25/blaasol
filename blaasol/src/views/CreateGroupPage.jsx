@@ -1,3 +1,7 @@
+// Create Group page — opened from the "+" popup on GroupsPage.
+// Lets the user pick a group photo, enter a name, and optionally set an
+// invite code. Calls onCreate({ name, avatar, inviteCode }) when submitted.
+
 import { useState, useRef, useEffect } from "react";
 
 import Header from "../components/Header";
@@ -5,28 +9,29 @@ import Header from "../components/Header";
 import "./GroupDetailPage.css";
 
 export default function CreateGroupPage({ onBack, onCreate }) {
-  const [name, setName] = useState("");
-  const [avatar, setAvatar] = useState(null);
-  const [code, setCode] = useState("");
+  const [name,   setName]   = useState("");   // group display name
+  const [avatar, setAvatar] = useState(null); // base64 image data URL, null = no photo chosen
+  const [code,   setCode]   = useState("");   // optional custom invite code
 
   const nameInputRef = useRef(null);
 
+  // Auto-focus the name field when the page opens
   useEffect(() => {
     nameInputRef.current?.focus();
   }, []);
 
+  // Converts the picked image file to a base64 data URL for preview
   function handleImageChange(e) {
     const file = e.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = (ev) => setAvatar(ev.target.result);
     reader.readAsDataURL(file);
   }
 
+  // Validates and passes the new group up to GroupsPage
   function handleCreate() {
-    if (!name.trim()) return;
-
+    if (!name.trim()) return; // require at least a name
     onCreate({
       name: name.trim(),
       avatar,
@@ -39,6 +44,7 @@ export default function CreateGroupPage({ onBack, onCreate }) {
       <Header variant="back" onBackClick={onBack} />
 
       <main className="detail-main edit-mode">
+        {/* Hidden file input triggered by the "Add photo" label */}
         <input
           id="create-image-input"
           type="file"
@@ -47,17 +53,14 @@ export default function CreateGroupPage({ onBack, onCreate }) {
           onChange={handleImageChange}
         />
 
+        {/* Group photo preview — shows a grey placeholder until a photo is chosen */}
         <div className="detail-photo-wrap create-placeholder">
-          {avatar ? (
-            <img src={avatar} alt="Group" className="detail-photo" />
-          ) : (
-            <div className="create-photo-empty" />
-          )}
+          {avatar
+            ? <img src={avatar} alt="Group" className="detail-photo" />
+            : <div className="create-photo-empty" />}
         </div>
 
-        <label htmlFor="create-image-input" className="edit-link">
-          Add photo
-        </label>
+        <label htmlFor="create-image-input" className="edit-link">Add photo</label>
 
         <input
           ref={nameInputRef}
@@ -76,9 +79,7 @@ export default function CreateGroupPage({ onBack, onCreate }) {
           maxLength={10}
         />
 
-        <button className="edit-done-btn" onClick={handleCreate}>
-          CREATE
-        </button>
+        <button className="edit-done-btn" onClick={handleCreate}>CREATE</button>
       </main>
     </div>
   );

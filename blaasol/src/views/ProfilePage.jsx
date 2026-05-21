@@ -1,33 +1,36 @@
-// ─────────────────────────────────────────────
-// ProfilePage — your personal profile
-// Opened by tapping the account icon in the header.
-// Contains three modes:
-//   1. Normal view — shows your photo, name, friends list, share button
-//   2. Edit mode   — change your name and profile photo
-//   3. Share view  — shows your personal QR code (EK155) via QRPage
-// Tapping a friend opens their FriendProfilePage
-// ─────────────────────────────────────────────
+// Your personal profile page — opened from the account icon in the header.
+// Has three modes:
+//   Normal view  — photo, name, friend list, liked artists
+//   Edit mode    — change your display name and profile photo
+//   Share view   — shows your personal QR code so friends can find you
 
 import { useState, useRef, useEffect } from "react";
-import Header from "../components/Header";
-import NavBar from "../components/NavBar";
-import QRPage from "./QRPage";
+import { useLocation } from "react-router-dom";
+
+import Header          from "../components/Header";
+import NavBar          from "../components/NavBar";
+import QRPage          from "./QRPage";
 import FriendProfilePage from "./FriendProfilePage";
-import { ACTS } from "../actsData";
+import { ACTS }        from "../actsData";
 import { useLikedArtists } from "../useLikedArtists";
-import ellapersona from "../assets/ellapersona.png";
+import ellapersona     from "../assets/ellapersona.png";
+import { friends }     from "../friendsData";
+
 import "./ProfilePage.css";
 
-// Your friends list shown on the profile
-const friends = [
-  { id: 1, name: "Laura Dahl",        avatar: null },
-  { id: 2, name: "Emma Sørensen",     avatar: null },
-  { id: 3, name: "Sofie Christensen", avatar: null },
-  { id: 4, name: "Andreas Nielsen",   avatar: null },
-  { id: 5, name: "Frederik Larsen",   avatar: null },
-];
+const PROFILE_KEY = "blaasol_profile";
 
-// Arrow icon used in the friends list rows
+// Reads saved name + avatar from localStorage
+function loadProfile() {
+  try {
+    const raw = localStorage.getItem(PROFILE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+// Chevron arrow used in the friends list rows
 function ArrowIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -36,7 +39,7 @@ function ArrowIcon() {
   );
 }
 
-// Share / upload icon shown next to the EDIT button
+// Upload / share icon shown next to the EDIT button
 function ShareIcon() {
   return (
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -48,27 +51,32 @@ function ShareIcon() {
 
 export default function ProfilePage({ onBack }) {
   const [likedArtists] = useLikedArtists();
-  const [activeTab, setActiveTab]           = useState("group");
-  const [activeSection, setActiveSection]   = useState("friends"); // "friends" or "artists" tab
-  const [editing, setEditing]               = useState(false);     // true = edit mode open
-  const [showShare, setShowShare]           = useState(false);     // true = show QR share page
-  const [selectedFriend, setSelectedFriend] = useState(null);     // friend whose profile to open
-  // Current saved profile values
-  const [profileName, setProfileName]       = useState("ELLA KARBERG");
-  const [profileAvatar, setProfileAvatar]   = useState(ellapersona);
-  // Temporary edit values — only saved when DONE is pressed
-  const [editName, setEditName]             = useState(profileName);
-  const [editAvatar, setEditAvatar]         = useState(profileAvatar);
+  const location       = useLocation();
+
+  // Which nav tab was active before opening profile — kept highlighted in the NavBar
+  const activeTab = location.state?.activeTab ?? "group";
+
+  const [activeSection, setActiveSection] = useState("friends"); // "friends" or "artists" tab
+  const [editing, setEditing]             = useState(false);
+  const [showShare, setShowShare]         = useState(false);
+  const [selectedFriend, setSelectedFriend] = useState(null);
+
+  // Profile name and photo — loaded from localStorage once on mount
+  const [profileName,   setProfileName]   = useState(() => loadProfile()?.name   ?? "ELLA KARBERG");
+  const [profileAvatar, setProfileAvatar] = useState(() => loadProfile()?.avatar ?? ellapersona);
+
+  // Temporary edit values — only committed when the user presses DONE
+  const [editName,   setEditName]   = useState(profileName);
+  const [editAvatar, setEditAvatar] = useState(profileAvatar);
+
   const nameInputRef = useRef(null);
 
-  // Auto-focus the name input when edit mode opens
+  // Auto-focus the name field when edit mode opens
   useEffect(() => {
-    if (editing && nameInputRef.current) {
-      nameInputRef.current.focus();
-    }
+    if (editing && nameInputRef.current) nameInputRef.current.focus();
   }, [editing]);
 
-  // Reads the chosen image file and converts it to a base64 URL for preview
+  // Converts the picked image file to a base64 data URL for preview
   function handleImageChange(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -77,19 +85,20 @@ export default function ProfilePage({ onBack }) {
     reader.readAsDataURL(file);
   }
 
-  // Saves the edited name and avatar back to the profile
+  // Saves edits and closes edit mode
   function handleDone() {
     setProfileName(editName);
     setProfileAvatar(editAvatar);
+    localStorage.setItem(PROFILE_KEY, JSON.stringify({ name: editName, avatar: editAvatar }));
     setEditing(false);
   }
 
-  // ── Page routing ──
+  // Sub-page: a friend's profile
   if (selectedFriend) {
-    return <FriendProfilePage friend={selectedFriend} onBack={() => setSelectedFriend(null)} onGroupClick={onBack} />;
+    return <FriendProfilePage friend={selectedFriend} onBack={() => setSelectedFriend(null)} />;
   }
 
-  // Share button — opens personal QR code page
+  // Sub-page: personal QR code so friends can follow you
   if (showShare) {
     return (
       <QRPage
@@ -100,13 +109,13 @@ export default function ProfilePage({ onBack }) {
     );
   }
 
-  // ── Edit mode ──
+  // Edit mode — change name or profile photo
   if (editing) {
     return (
       <div className="profile-page">
         <Header variant="back" onBackClick={() => setEditing(false)} />
         <main className="detail-main edit-mode">
-          {/* Hidden file input — triggered by the "Edit" label below */}
+          {/* Hidden file input triggered by the "Edit" label */}
           <input
             id="profile-image-input"
             type="file"
@@ -117,7 +126,6 @@ export default function ProfilePage({ onBack }) {
           <div className="profile-edit-photo-wrap">
             <img src={editAvatar} alt="Profile" className="profile-edit-photo" />
           </div>
-          {/* Clicking "Edit" opens the file picker to change your profile photo */}
           <label htmlFor="profile-image-input" className="edit-link">Edit</label>
           <input
             ref={nameInputRef}
@@ -133,23 +141,27 @@ export default function ProfilePage({ onBack }) {
     );
   }
 
-  // ── Normal profile view ──
+  // Acts the user has liked in the schedule
+  const likedActs = ACTS.filter(a => likedArtists?.has(a.id));
+
   return (
     <div className="profile-page">
       <Header variant="back" onBackClick={onBack} />
 
       <main className="profile-main">
-        {/* Top section: photo, name, friend count, edit & share buttons */}
+        {/* Avatar, name, friend count, edit + share buttons */}
         <div className="profile-top">
           <img src={profileAvatar} alt={profileName} className="profile-avatar" />
           <div className="profile-info">
             <h1 className="profile-name">{profileName}</h1>
             <p className="profile-friends-count">{friends.length} friends</p>
             <div className="profile-actions">
-              {/* EDIT opens edit mode to change name/photo */}
-              <button className="profile-edit-btn" onClick={() => { setEditName(profileName); setEditAvatar(profileAvatar); setEditing(true); }}>EDIT</button>
-              {/* Share opens the personal QR code page */}
-              <button className="profile-share-btn" onClick={() => setShowShare(true)}><ShareIcon /></button>
+              <button className="profile-edit-btn" onClick={() => { setEditName(profileName); setEditAvatar(profileAvatar); setEditing(true); }}>
+                EDIT
+              </button>
+              <button className="profile-share-btn" onClick={() => setShowShare(true)}>
+                <ShareIcon />
+              </button>
             </div>
           </div>
         </div>
@@ -171,11 +183,16 @@ export default function ProfilePage({ onBack }) {
           </button>
         </div>
 
-        {/* Friends list — tapping a friend opens their FriendProfilePage */}
+        {/* Friends tab — tap a friend to open their profile */}
         {activeSection === "friends" && (
           <ul className="profile-list">
             {friends.map((f, i) => (
-              <li key={f.id} className="profile-list-item" style={{ cursor: "pointer" }} onClick={() => setSelectedFriend(f)}>
+              <li
+                key={f.id}
+                className="profile-list-item"
+                style={{ cursor: "pointer" }}
+                onClick={() => setSelectedFriend(f)}
+              >
                 <div className="profile-list-avatar">
                   {f.avatar
                     ? <img src={f.avatar} alt={f.name} />
@@ -189,29 +206,28 @@ export default function ProfilePage({ onBack }) {
           </ul>
         )}
 
-        {/* Artists tab — shows acts the user has liked in the schedule */}
-        {activeSection === "artists" && (() => {
-          const liked = ACTS.filter(a => likedArtists?.has(a.id));
-          return liked.length === 0 ? (
-            <p className="profile-empty">No artists saved yet. Like artists in the schedule.</p>
-          ) : (
-            <ul className="profile-list">
-              {liked.map((act, i) => (
-                <li key={act.id} className="profile-list-item">
-                  <img src={act.img} alt={act.name} className="profile-artist-img" />
-                  <div className="profile-artist-info">
-                    <span className="profile-list-name">{act.name}</span>
-                    <span className="profile-artist-meta">{act.time} · {act.venue}</span>
-                  </div>
-                  {i < liked.length - 1 && <div className="profile-list-divider" />}
-                </li>
-              ))}
-            </ul>
-          );
-        })()}
+        {/* Artists tab — shows acts liked from the schedule */}
+        {activeSection === "artists" && likedActs.length === 0 && (
+          <p className="profile-empty">No artists saved yet. Like artists in the schedule.</p>
+        )}
+
+        {activeSection === "artists" && likedActs.length > 0 && (
+          <ul className="profile-list">
+            {likedActs.map((act, i) => (
+              <li key={act.id} className="profile-list-item">
+                <img src={act.img} alt={act.name} className="profile-artist-img" />
+                <div className="profile-artist-info">
+                  <span className="profile-list-name">{act.name}</span>
+                  <span className="profile-artist-meta">{act.time} · {act.venue}</span>
+                </div>
+                {i < likedActs.length - 1 && <div className="profile-list-divider" />}
+              </li>
+            ))}
+          </ul>
+        )}
       </main>
 
-      <NavBar active={activeTab} onTabChange={setActiveTab} onGroupClick={onBack} />
+      <NavBar active={activeTab} />
     </div>
   );
 }
