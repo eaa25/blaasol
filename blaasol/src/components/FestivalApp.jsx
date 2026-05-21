@@ -5,6 +5,8 @@ import NavBar from "./NavBar";
 
 import landingImg from "../images/first.png";
 
+import countdownBg from "../images/countdownbackground.png";
+
 import artist1 from "../images/anastasia.png";
 import artist2 from "../images/benjaminhav.png";
 
@@ -13,8 +15,12 @@ import news2 from "../images/spotyourself.png";
 
 import "./FestivalApp.css";
 
+/* Landing screen should appear again after refresh,
+   but NOT when navigating back to "/" inside the app */
+let hasSeenLanding = false;
+
 function FestivalApp() {
-  const [started, setStarted] = useState(false);
+  const [started, setStarted] = useState(hasSeenLanding);
 
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -61,7 +67,13 @@ function FestivalApp() {
   if (!started) {
     return (
       <div className="festival-page">
-        <div className="landing" onClick={() => setStarted(true)}>
+        <div
+          className="landing"
+          onClick={() => {
+            hasSeenLanding = true;
+            setStarted(true);
+          }}
+        >
           <img
             src={landingImg}
             alt="Landing"
@@ -79,7 +91,10 @@ function FestivalApp() {
       <main className="festival-main">
         {/* COUNTDOWN */}
 
-        <section className="countdown-box">
+        <section
+          className="countdown-box"
+          style={{ backgroundImage: `url(${countdownBg})` }}
+        >
           <h2>BLÅ SOL 2026</h2>
 
           <div className="countdown">
